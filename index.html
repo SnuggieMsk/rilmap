@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- Chart.js -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" />
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
   <style>
     /* Modern CSS Reset & Base Styles */
     *, *::before, *::after {
@@ -20,65 +20,93 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #333;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: #1F2937;
       line-height: 1.6;
       background-color: #f8f9fa;
-      overflow-x: hidden;
+      font-size: 16px;
     }
     
-    /* Color Variables */
+    /* Enhanced Color Variables */
     :root {
-      --primary: #0052cc;
-      --primary-dark: #003d99;
-      --secondary: #6c757d;
-      --success: #28a745;
-      --info: #17a2b8;
-      --warning: #ffc107;
-      --danger: #dc3545;
-      --light: #f8f9fa;
-      --dark: #343a40;
-      --white: #ffffff;
-      --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      --primary: #0047AB;
+      --primary-dark: #003380;
+      --primary-light: #E6F0FF;
+      --secondary: #6B7280;
+      --secondary-light: #F3F4F6;
+      --success: #10B981;
+      --success-light: #ECFDF5;
+      --info: #3B82F6;
+      --info-light: #EFF6FF;
+      --warning: #F59E0B;
+      --warning-light: #FFFBEB;
+      --danger: #EF4444;
+      --danger-light: #FEF2F2;
+      --light: #F9FAFB;
+      --dark: #111827;
+      --gray-100: #F3F4F6;
+      --gray-200: #E5E7EB;
+      --gray-300: #D1D5DB;
+      --gray-400: #9CA3AF;
+      --gray-500: #6B7280;
+      --gray-600: #4B5563;
+      --gray-700: #374151;
+      --gray-800: #1F2937;
+      --gray-900: #111827;
+      --white: #FFFFFF;
+      --box-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --box-shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --box-shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --transition-fast: all 0.2s ease;
       --transition: all 0.3s ease;
-    }
-    
-    /* Dark mode colors */
-    body.dark-mode {
-      background-color: #1a1a1a;
-      color: #f0f0f0;
-    }
-    
-    body.dark-mode :root {
-      --primary: #4d79ff;
-      --secondary: #adb5bd;
-      --light: #2a2a2a;
-      --dark: #f0f0f0;
-      --white: #2a2a2a;
-      --text-color: #f0f0f0;
-      --light-text: #d0d0d0;
-      --box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      --transition-slow: all 0.5s ease;
+      --border-radius-sm: 0.25rem;
+      --border-radius: 0.375rem;
+      --border-radius-md: 0.5rem;
+      --border-radius-lg: 0.75rem;
+      --border-radius-xl: 1rem;
+      --border-radius-2xl: 1.5rem;
+      --border-radius-full: 9999px;
+      
+      /* Chat-specific colors */
+      --chat-primary: #0047AB;
+      --chat-secondary: #F3F4F6;
+      --chat-accent: #10B981;
+      --chat-text: #1F2937;
+      --chat-light-text: #6B7280;
+      --chat-bg: #F9FAFB;
     }
     
     /* Typography */
     h1, h2, h3, h4, h5, h6 {
       margin-top: 0;
       font-weight: 600;
-      color: var(--dark);
+      color: var(--gray-800);
+      line-height: 1.3;
     }
     
-    body.dark-mode h1, 
-    body.dark-mode h2, 
-    body.dark-mode h3, 
-    body.dark-mode h4, 
-    body.dark-mode h5, 
-    body.dark-mode h6 {
-      color: var(--light);
-    }
+    h1 { font-size: 1.875rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.25rem; }
+    h4 { font-size: 1.125rem; }
+    h5 { font-size: 1rem; }
+    h6 { font-size: 0.875rem; }
     
     p {
       margin-top: 0;
       margin-bottom: 1rem;
+    }
+    
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+    
+    a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
     }
     
     /* Layout */
@@ -92,39 +120,45 @@
     #navbar {
       background: var(--primary);
       color: var(--white);
-      padding: 0.5rem 1rem;
+      padding: 0.75rem 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       box-shadow: var(--box-shadow);
-      z-index: 100;
+      z-index: 10;
     }
     
     .brand {
       font-size: 1.25rem;
-      font-weight: bold;
+      font-weight: 700;
       display: flex;
       align-items: center;
+      letter-spacing: -0.025em;
     }
     
     .brand i {
-      margin-right: 0.5rem;
+      margin-right: 0.625rem;
+      font-size: 1.375rem;
     }
     
     .nav-tabs {
       display: flex;
-      gap: 0.25rem;
+      gap: 0.125rem;
     }
     
     #navbar button {
       background: transparent;
       border: none;
-      padding: 0.75rem 1rem;
-      color: rgba(255,255,255,0.8);
+      padding: 0.625rem 1rem;
+      color: rgba(255,255,255,0.85);
       cursor: pointer;
-      border-radius: 4px;
-      transition: var(--transition);
+      border-radius: var(--border-radius);
+      transition: var(--transition-fast);
       font-weight: 500;
+      font-size: 0.9375rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
     
     #navbar button.active, #navbar button:hover {
@@ -132,28 +166,8 @@
       color: var(--white);
     }
     
-    /* Additional navbar controls */
-    .nav-controls {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .theme-toggle, .search-toggle, .chat-toggle, .tour-button {
-      background: rgba(255,255,255,0.15);
-      border: none;
-      color: white;
-      width: 36px;
-      height: 36px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    
-    .theme-toggle:hover, .search-toggle:hover, .chat-toggle:hover, .tour-button:hover {
-      background: rgba(255,255,255,0.3);
+    #navbar button i {
+      font-size: 1rem;
     }
     
     /* Container for each view */
@@ -171,81 +185,15 @@
       width: 100%;
       height: 100%;
       padding: 0;
-      transition: transform 0.3s ease-out;
+      transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
       transform: translateX(100%);
+      opacity: 0;
     }
     
     .view.active {
       display: block;
       transform: translateX(0);
-    }
-    
-    /* Search panel */
-    .search-panel {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: var(--white);
-      padding: 1rem;
-      z-index: 95;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      display: none;
-      transform: translateY(-100%);
-      transition: transform 0.3s ease;
-    }
-    
-    .search-panel.active {
-      transform: translateY(0);
-      display: block;
-    }
-    
-    .search-input-container {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .search-input {
-      flex: 1;
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 1rem;
-    }
-    
-    .search-results {
-      max-height: 300px;
-      overflow-y: auto;
-      margin-top: 1rem;
-    }
-    
-    .search-result-item {
-      padding: 0.75rem;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    
-    .search-result-item:hover {
-      background: #f5f5f5;
-    }
-    
-    body.dark-mode .search-panel {
-      background: #2a2a2a;
-    }
-    
-    body.dark-mode .search-input {
-      background: #333;
-      color: #f0f0f0;
-      border-color: #555;
-    }
-    
-    body.dark-mode .search-result-item {
-      border-color: #444;
-    }
-    
-    body.dark-mode .search-result-item:hover {
-      background: #333;
+      opacity: 1;
     }
     
     /* Map view layout */
@@ -255,41 +203,37 @@
     }
     
     #sidebar {
-      width: 320px;
+      width: 350px;
       background: var(--white);
-      padding: 1rem;
+      padding: 1.25rem;
       overflow-y: auto;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+      box-shadow: var(--box-shadow);
       z-index: 5;
       transition: var(--transition);
-    }
-    
-    body.dark-mode #sidebar {
-      background: #2a2a2a;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.2);
     }
     
     .sidebar-toggle {
       display: none;
       position: absolute;
-      left: 320px;
-      top: 10px;
+      left: 350px;
+      top: 15px;
       background: var(--white);
-      border: 1px solid #ddd;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--border-radius-full);
+      width: 38px;
+      height: 38px;
       text-align: center;
-      line-height: 32px;
+      line-height: 38px;
       z-index: 1000;
       cursor: pointer;
       box-shadow: var(--box-shadow);
+      transition: var(--transition-fast);
     }
     
-    body.dark-mode .sidebar-toggle {
-      background: #2a2a2a;
-      border-color: #555;
-      color: #f0f0f0;
+    .sidebar-toggle:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+      transform: scale(1.05);
     }
     
     #map {
@@ -300,74 +244,96 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 0.75rem;
-    }
-    
-    body.dark-mode .sidebar-header {
-      border-color: #555;
+      margin-bottom: 1.25rem;
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 0.875rem;
     }
     
     .sidebar-header h2 {
       margin: 0;
       font-size: 1.25rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
     
     /* Filter UI styles */
     .filter-group {
-      margin-bottom: 1.25rem;
-      background: #f9f9f9;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-    
-    body.dark-mode .filter-group {
-      background: #333;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      margin-bottom: 1.5rem;
+      background: var(--gray-100);
+      padding: 1.25rem;
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--box-shadow-sm);
+      border: 1px solid var(--gray-200);
     }
     
     .filter-title {
       font-weight: 600;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
       display: flex;
       align-items: center;
+      color: var(--gray-800);
+      font-size: 1.0625rem;
     }
     
     .filter-title i {
-      margin-right: 0.5rem;
+      margin-right: 0.625rem;
       color: var(--primary);
+      font-size: 1.125rem;
     }
     
     .filter-group label {
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
       font-weight: 500;
-      font-size: 0.95rem;
+      font-size: 0.9375rem;
+      color: var(--gray-700);
+    }
+    
+    .filter-option {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    
+    .filter-option:last-child {
+      margin-bottom: 0;
     }
     
     .filter-group input[type="checkbox"] {
-      margin-right: 0.5rem;
+      margin-right: 0.625rem;
+      width: 1.125rem;
+      height: 1.125rem;
+      cursor: pointer;
     }
     
     .filter-group select, .filter-group input[type="range"] {
       width: 100%;
-      padding: 0.5rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background: #fff;
+      padding: 0.625rem;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--border-radius);
+      background: var(--white);
+      font-size: 0.9375rem;
+      transition: var(--transition-fast);
     }
     
-    body.dark-mode .filter-group select, 
-    body.dark-mode .filter-group input[type="range"] {
-      background: #444;
-      border-color: #555;
-      color: #f0f0f0;
+    .filter-group select:focus, .filter-group input[type="range"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
     }
     
     .filter-group select {
-      height: 38px;
+      height: 40px;
+      cursor: pointer;
+      color: var(--gray-700);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.625rem center;
+      background-size: 1rem;
+      padding-right: 2.5rem;
     }
     
     .slider-container {
@@ -378,190 +344,198 @@
     .slider-container .slider-label {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
     }
     
     .slider-container input[type="range"] {
       padding: 0;
+      height: 6px;
+      background: var(--gray-300);
+      border: none;
+      border-radius: var(--border-radius-full);
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+    
+    .slider-container input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      border: 2px solid var(--white);
+      box-shadow: 0 0 0 1px var(--gray-300);
+      transition: var(--transition-fast);
+    }
+    
+    .slider-container input[type="range"]::-webkit-slider-thumb:hover {
+      background: var(--primary-dark);
+      transform: scale(1.1);
     }
     
     .time-value {
-      font-weight: bold;
+      font-weight: 600;
       color: var(--primary);
-    }
-    
-    body.dark-mode .time-value {
-      color: #4d79ff;
+      padding: 0.25rem 0.5rem;
+      background: var(--primary-light);
+      border-radius: var(--border-radius);
+      display: inline-block;
     }
     
     hr {
       border: none;
-      border-top: 1px solid #eee;
-      margin: 1.5rem 0;
-    }
-    
-    body.dark-mode hr {
-      border-color: #555;
+      border-top: 1px solid var(--gray-200);
+      margin: 1.75rem 0;
     }
     
     /* Marker list styling */
     #markerList {
       max-height: 400px;
       overflow-y: auto;
-      margin-top: 1rem;
+      margin-top: 1.25rem;
+      padding-right: 0.5rem;
     }
     
     .marker-list-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    
+    .marker-list-header h3 {
+      margin: 0;
+      color: var(--gray-800);
+      font-size: 1.125rem;
     }
     
     .marker-list-header .marker-count {
-      color: var(--secondary);
-      font-size: 0.9rem;
-    }
-    
-    body.dark-mode .marker-list-header .marker-count {
-      color: #adb5bd;
+      color: var(--gray-500);
+      font-size: 0.875rem;
+      background: var(--gray-100);
+      padding: 0.25rem 0.625rem;
+      border-radius: var(--border-radius-full);
+      font-weight: 500;
     }
     
     .marker-item {
       cursor: pointer;
-      margin-bottom: 0.75rem;
-      padding: 0.75rem;
-      border: 1px solid #eee;
-      border-radius: 6px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--border-radius-lg);
       background: var(--white);
       transition: var(--transition);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-    
-    body.dark-mode .marker-item {
-      background: #333;
-      border-color: #555;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      box-shadow: var(--box-shadow-sm);
     }
     
     .marker-item:hover {
-      background: #f5f7fa;
-      transform: translateY(-2px);
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-    }
-    
-    body.dark-mode .marker-item:hover {
-      background: #3a3a3a;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+      background: var(--primary-light);
+      transform: translateY(-3px);
+      box-shadow: var(--box-shadow-md);
+      border-color: var(--primary-light);
     }
     
     .marker-item .title {
       font-weight: 600;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.375rem;
       display: flex;
       justify-content: space-between;
+      color: var(--gray-800);
     }
     
     .marker-item .title .year {
       color: var(--primary);
-      font-size: 0.9rem;
-      font-weight: normal;
+      font-size: 0.875rem;
+      font-weight: 500;
+      background: var(--primary-light);
+      padding: 0.125rem 0.5rem;
+      border-radius: var(--border-radius);
     }
     
-    body.dark-mode .marker-item .title .year {
-      color: #4d79ff;
+    .marker-badges {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
     }
     
     .marker-item .type-badge {
       display: inline-block;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      margin-right: 0.5rem;
+      padding: 0.125rem 0.625rem;
+      border-radius: var(--border-radius-full);
+      font-size: 0.75rem;
+      font-weight: 500;
     }
     
     .type-badge.operation {
-      background: #e3f2fd;
-      color: #1976d2;
+      background: var(--info-light);
+      color: var(--info);
     }
     
     .type-badge.partnership {
-      background: #fce4ec;
-      color: #c2185b;
+      background: #FCE7F3; /* Pink light */
+      color: #DB2777; /* Pink */
     }
     
     .type-badge.opportunity {
-      background: #e8f5e9;
-      color: #388e3c;
+      background: var(--success-light);
+      color: var(--success);
+    }
+    
+    .type-badge.current {
+      background: var(--primary-light);
+      color: var(--primary);
     }
     
     .type-badge.past {
-      background: #eeeeee;
-      color: #757575;
+      background: var(--gray-100);
+      color: var(--gray-500);
     }
     
-    body.dark-mode .type-badge.operation {
-      background: rgba(25, 118, 210, 0.2);
-      color: #64b5f6;
-    }
-    
-    body.dark-mode .type-badge.partnership {
-      background: rgba(194, 24, 91, 0.2);
-      color: #f48fb1;
-    }
-    
-    body.dark-mode .type-badge.opportunity {
-      background: rgba(56, 142, 60, 0.2);
-      color: #81c784;
-    }
-    
-    body.dark-mode .type-badge.past {
-      background: rgba(117, 117, 117, 0.2);
-      color: #bdbdbd;
+    .type-badge.future {
+      background: var(--warning-light);
+      color: var(--warning);
     }
     
     .marker-item .description {
-      font-size: 0.9rem;
-      color: #555;
-      margin-top: 0.25rem;
-    }
-    
-    body.dark-mode .marker-item .description {
-      color: #bbb;
+      font-size: 0.875rem;
+      color: var(--gray-600);
+      line-height: 1.5;
     }
     
     /* Map legends */
     .legend {
       background: white;
-      padding: 8px 12px;
-      font: 14px/1.5 'Segoe UI', sans-serif;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      border-radius: 5px;
-    }
-    
-    body.dark-mode .legend {
-      background: #333;
-      color: #f0f0f0;
-      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      padding: 0.75rem 1rem;
+      font: 14px/1.5 'Inter', sans-serif;
+      box-shadow: var(--box-shadow);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--gray-200);
     }
     
     .legend h4 {
-      margin: 0 0 10px;
-      font-size: 16px;
+      margin: 0 0 0.625rem;
+      font-size: 0.9375rem;
+      color: var(--gray-800);
+      padding-bottom: 0.375rem;
+      border-bottom: 1px solid var(--gray-200);
     }
     
     .legend div {
       display: flex;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 0.5rem;
+      font-size: 0.8125rem;
     }
     
     .legend i {
-      width: 18px;
-      height: 18px;
-      margin-right: 8px;
+      width: 16px;
+      height: 16px;
+      margin-right: 0.5rem;
       opacity: 0.8;
-      border-radius: 50%;
+      border-radius: var(--border-radius);
       display: inline-block;
     }
     
@@ -573,26 +547,41 @@
     
     #timelineContent {
       flex: 1;
-      padding: 1.5rem;
+      padding: 2rem;
       overflow-y: auto;
+    }
+    
+    .timeline-header {
+      margin-bottom: 2rem;
+    }
+    
+    .timeline-header h2 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+    }
+    
+    .timeline-header p {
+      color: var(--gray-600);
+      max-width: 800px;
     }
     
     .timeline-controls {
       background: var(--white);
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+      border-radius: var(--border-radius-lg);
       box-shadow: var(--box-shadow);
-    }
-    
-    body.dark-mode .timeline-controls {
-      background: #2a2a2a;
+      border: 1px solid var(--gray-200);
     }
     
     .timeline {
       position: relative;
-      margin: 2rem 0;
-      padding-left: 2rem;
+      margin: 3rem 0;
+      padding-left: 2.5rem;
     }
     
     .timeline::before {
@@ -603,66 +592,66 @@
       left: 0;
       width: 4px;
       background: var(--primary);
+      border-radius: var(--border-radius-full);
     }
     
     .timeline-item {
       position: relative;
-      margin-bottom: 2rem;
-      padding: 1.25rem;
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
       background: var(--white);
-      border-radius: 8px;
+      border-radius: var(--border-radius-lg);
       box-shadow: var(--box-shadow);
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+      max-width: 800px;
     }
     
-    body.dark-mode .timeline-item {
-      background: #2a2a2a;
+    .timeline-item:hover {
+      transform: translateX(5px);
+      box-shadow: var(--box-shadow-md);
+      border-color: var(--primary-light);
     }
     
     .timeline-item::before {
       content: "";
       position: absolute;
-      left: -2.25rem;
+      left: -2.5rem;
       top: 1.5rem;
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       background: var(--white);
-      border: 3px solid var(--primary);
-    }
-    
-    body.dark-mode .timeline-item::before {
-      background: #2a2a2a;
+      border: 4px solid var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-light);
     }
     
     .timeline-item .year {
       display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
+      padding: 0.375rem 0.875rem;
+      border-radius: var(--border-radius-full);
       background: var(--primary);
       color: var(--white);
-      font-weight: bold;
-      margin-bottom: 0.5rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
     }
     
     .timeline-item h3 {
-      margin: 0.5rem 0;
+      margin: 0.75rem 0;
+      color: var(--gray-800);
     }
     
     .timeline-item p {
-      margin-bottom: 0;
+      margin-bottom: 0.5rem;
+      color: var(--gray-600);
     }
     
-    /* Timeline Chart */
-    .timeline-chart-container {
-      background: var(--white);
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: var(--box-shadow);
-      margin-bottom: 2rem;
-    }
-    
-    body.dark-mode .timeline-chart-container {
-      background: #2a2a2a;
+    .timeline-badges {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.5rem 0 1rem;
+      flex-wrap: wrap;
     }
     
     /* Strategy view */
@@ -673,43 +662,56 @@
     
     #strategyContent {
       flex: 1;
-      padding: 1.5rem;
+      padding: 2rem;
       overflow-y: auto;
     }
     
     .strategy-header {
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
       text-align: center;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .strategy-header h2 {
+      font-size: 1.75rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .strategy-header p {
+      color: var(--gray-600);
+      font-size: 1.0625rem;
     }
     
     .strategy-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
     }
     
     .strategy-card {
       background: var(--white);
-      border-radius: 8px;
-      padding: 1.5rem;
+      border-radius: var(--border-radius-xl);
+      padding: 1.75rem;
       box-shadow: var(--box-shadow);
       transition: var(--transition);
       position: relative;
       overflow: hidden;
-    }
-    
-    body.dark-mode .strategy-card {
-      background: #2a2a2a;
+      border: 1px solid var(--gray-200);
     }
     
     .strategy-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-    }
-    
-    body.dark-mode .strategy-card:hover {
-      box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+      transform: translateY(-7px);
+      box-shadow: var(--box-shadow-lg);
     }
     
     .strategy-card::before {
@@ -718,7 +720,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 5px;
+      height: 6px;
     }
     
     .strategy-card.short-term::before {
@@ -734,20 +736,18 @@
     }
     
     .strategy-card h3 {
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
+      margin-top: 0.75rem;
+      margin-bottom: 1.25rem;
       font-size: 1.25rem;
       display: flex;
       align-items: center;
+      color: var(--gray-800);
     }
     
     .strategy-card h3 i {
       margin-right: 0.75rem;
       color: var(--primary);
-    }
-    
-    body.dark-mode .strategy-card h3 i {
-      color: #4d79ff;
+      font-size: 1.375rem;
     }
     
     .strategy-card ul {
@@ -756,7 +756,8 @@
     }
     
     .strategy-card li {
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.875rem;
+      color: var(--gray-700);
     }
     
     .strategy-card li:last-child {
@@ -771,35 +772,43 @@
     
     #detailsContent {
       flex: 1;
-      padding: 1.5rem;
+      padding: 2rem;
       overflow-y: auto;
     }
     
     .details-section {
       background: var(--white);
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
+      border-radius: var(--border-radius-xl);
+      padding: 1.75rem;
+      margin-bottom: 2rem;
       box-shadow: var(--box-shadow);
-    }
-    
-    body.dark-mode .details-section {
-      background: #2a2a2a;
+      border: 1px solid var(--gray-200);
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
     }
     
     .details-section h2 {
-      border-bottom: 2px solid var(--primary);
-      padding-bottom: 0.75rem;
-      margin-bottom: 1.25rem;
+      padding-bottom: 0.875rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 2px solid var(--primary-light);
     }
     
     .details-section h3 {
-      margin: 1.5rem 0 1rem;
-      color: var(--primary-dark);
+      margin: 1.75rem 0 1rem;
+      color: var(--gray-800);
+      font-size: 1.25rem;
+      padding-left: 0.75rem;
+      border-left: 3px solid var(--primary);
     }
     
-    body.dark-mode .details-section h3 {
-      color: #4d79ff;
+    .details-section p {
+      color: var(--gray-700);
+      line-height: 1.7;
     }
     
     /* Modal for detailed info card */
@@ -807,12 +816,13 @@
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(3px);
       justify-content: center;
       align-items: center;
       z-index: 1000;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     }
     
     #detailModal.show {
@@ -821,18 +831,14 @@
     
     #detailModal .modal-content {
       background: var(--white);
-      padding: 1.5rem;
-      max-width: 500px;
+      padding: 2rem;
+      max-width: 550px;
       width: 90%;
-      border-radius: 8px;
+      border-radius: var(--border-radius-xl);
       position: relative;
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    }
-    
-    body.dark-mode #detailModal .modal-content {
-      background: #2a2a2a;
+      transform: translateY(30px);
+      transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+      box-shadow: var(--box-shadow-lg);
     }
     
     #detailModal.show .modal-content {
@@ -843,17 +849,15 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid #eee;
-    }
-    
-    body.dark-mode #detailModal .modal-header {
-      border-color: #555;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.875rem;
+      border-bottom: 1px solid var(--gray-200);
     }
     
     #detailModal .modal-header h3 {
       margin: 0;
+      color: var(--primary);
+      font-size: 1.375rem;
     }
     
     #detailModal .close-btn {
@@ -861,139 +865,152 @@
       border: none;
       font-size: 1.5rem;
       cursor: pointer;
-      color: var(--secondary);
+      color: var(--gray-400);
       line-height: 1;
-      padding: 0;
+      padding: 0.25rem;
       margin-left: 1rem;
+      transition: var(--transition-fast);
+      border-radius: var(--border-radius);
     }
     
-    body.dark-mode #detailModal .close-btn {
-      color: #adb5bd;
+    #detailModal .close-btn:hover {
+      color: var(--danger);
+      background: var(--danger-light);
     }
     
     #detailModal .modal-body {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
     }
     
     #detailModal .modal-footer {
       display: flex;
       justify-content: flex-end;
-      padding-top: 0.75rem;
-      border-top: 1px solid #eee;
-    }
-    
-    body.dark-mode #detailModal .modal-footer {
-      border-color: #555;
+      padding-top: 0.875rem;
+      border-top: 1px solid var(--gray-200);
     }
     
     #detailModal .modal-footer button {
       background: var(--primary);
       color: var(--white);
       border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--border-radius);
       cursor: pointer;
-      transition: var(--transition);
+      transition: var(--transition-fast);
+      font-weight: 500;
+      font-size: 0.9375rem;
     }
     
     #detailModal .modal-footer button:hover {
       background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--box-shadow);
     }
     
     .detail-item {
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
     }
     
     .detail-item .label {
       font-weight: 600;
       display: inline-block;
-      width: 80px;
+      width: 95px;
+      color: var(--gray-700);
     }
     
-    /* Chatbot styles */
+    .detail-item p {
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+    
+    .detail-badges {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    /* CHAT STYLING */
+    #view-chat {
+      display: flex;
+      height: 100%;
+    }
+    
     .chat-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 360px;
-      height: 500px;
-      background: var(--white);
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      z-index: 1000;
-      transition: all 0.3s ease;
-      transform: translateX(110%);
-    }
-    
-    .chat-container.active {
-      transform: translateX(0);
-    }
-    
-    body.dark-mode .chat-container {
-      background: #2a2a2a;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
     }
     
     .chat-header {
-      padding: 1rem;
+      padding: 1rem 1.5rem;
       background: var(--primary);
       color: var(--white);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: var(--box-shadow);
     }
     
-    .chat-header h3 {
-      font-size: 1rem;
+    .chat-header h1 {
+      font-size: 1.25rem;
       font-weight: 600;
-      margin: 0;
       display: flex;
       align-items: center;
-      gap: 8px;
-      color: white;
+      gap: 0.75rem;
+      margin: 0;
     }
     
     .chat-actions {
       display: flex;
-      gap: 10px;
+      gap: 0.75rem;
     }
     
-    .chat-action-button {
+    .action-button {
       background: rgba(255, 255, 255, 0.2);
       border: none;
       color: white;
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: var(--transition-fast);
     }
     
-    .chat-action-button:hover {
+    .action-button:hover {
       background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+    
+    .action-button i {
+      font-size: 1rem;
     }
     
     .messages-container {
       flex: 1;
-      padding: 1rem;
+      padding: 1.5rem;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.25rem;
       scroll-behavior: smooth;
+      background-image: 
+        radial-gradient(circle at 1px 1px, var(--gray-200) 1px, transparent 0),
+        radial-gradient(circle at 1px 1px, var(--gray-200) 1px, transparent 0);
+      background-size: 25px 25px;
+      background-position: 0 0, 12.5px 12.5px;
+      background-color: var(--chat-bg);
     }
     
     .message-wrapper {
       display: flex;
       flex-direction: column;
-      max-width: 80%;
+      max-width: 75%;
     }
     
     .user-message {
@@ -1005,34 +1022,47 @@
     }
     
     .message {
-      padding: 0.8rem 1rem;
-      border-radius: 18px;
+      padding: 1rem 1.25rem;
+      border-radius: var(--border-radius-xl);
       position: relative;
-      line-height: 1.5;
+      line-height: 1.6;
       word-wrap: break-word;
-      font-size: 0.9rem;
     }
     
     .user-message .message {
       background: var(--primary);
       color: var(--white);
       border-bottom-right-radius: 4px;
+      box-shadow: var(--box-shadow);
     }
     
     .bot-message .message {
-      background: var(--secondary);
-      color: var(--white);
+      background: var(--white);
+      color: var(--gray-800);
       border-bottom-left-radius: 4px;
+      box-shadow: var(--box-shadow);
+      border: 1px solid var(--gray-200);
     }
     
-    body.dark-mode .bot-message .message {
-      background: #444;
+    .message-sender {
+      font-size: 0.75rem;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+    
+    .user-message .message-sender {
+      text-align: right;
+      color: var(--primary-light);
+    }
+    
+    .bot-message .message-sender {
+      color: var(--primary);
     }
     
     .timestamp {
-      font-size: 0.7rem;
-      color: var(--light-text);
-      margin-top: 4px;
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-top: 0.375rem;
     }
     
     .user-message .timestamp {
@@ -1046,25 +1076,23 @@
     .typing-indicator {
       display: flex;
       align-items: center;
-      background: var(--secondary);
+      gap: 0.375rem;
+      background: var(--white);
       width: fit-content;
-      padding: 0.8rem 1rem;
-      border-radius: 18px;
+      padding: 0.875rem 1.25rem;
+      border-radius: var(--border-radius-xl);
       border-bottom-left-radius: 4px;
-    }
-    
-    body.dark-mode .typing-indicator {
-      background: #444;
+      box-shadow: var(--box-shadow);
+      border: 1px solid var(--gray-200);
     }
     
     .typing-indicator span {
-      height: 8px;
-      width: 8px;
-      background: var(--white);
+      height: 0.5rem;
+      width: 0.5rem;
+      background: var(--primary);
       display: block;
       border-radius: 50%;
-      margin: 0 2px;
-      opacity: 0.4;
+      opacity: 0.5;
     }
     
     .typing-indicator span:nth-child(1) {
@@ -1080,63 +1108,66 @@
     }
     
     @keyframes pulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 1; }
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
     }
     
     .chat-input-container {
-      padding: 0.8rem;
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 1.25rem;
+      background: var(--white);
+      border-top: 1px solid var(--gray-200);
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
     }
     
-    body.dark-mode .chat-input-container {
-      border-color: rgba(255, 255, 255, 0.1);
+    .chat-input-row {
+      display: flex;
+      align-items: flex-end;
     }
     
     .chat-input {
       flex: 1;
-      border: 1px solid var(--secondary);
-      border-radius: 20px;
-      padding: 0.6rem 1rem;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--border-radius-xl);
+      padding: 0.875rem 1.25rem;
       background: var(--white);
-      font-size: 0.9rem;
-      color: var(--text-color);
-      transition: border-color 0.3s;
+      font-size: 1rem;
+      color: var(--gray-800);
+      transition: var(--transition-fast);
       outline: none;
       resize: none;
-      max-height: 100px;
-      overflow-y: auto;
-    }
-    
-    body.dark-mode .chat-input {
-      background: #333;
-      color: #f0f0f0;
-      border-color: #555;
+      max-height: 150px;
+      line-height: 1.5;
+      min-height: 44px;
+      box-shadow: var(--box-shadow-sm);
     }
     
     .chat-input:focus {
       border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
     }
     
     .send-button {
       background: var(--primary);
       border: none;
       color: var(--white);
-      width: 36px;
-      height: 36px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      margin-left: 10px;
+      margin-left: 0.875rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.2s, background 0.3s;
+      transition: var(--transition-fast);
+      box-shadow: var(--box-shadow);
     }
     
     .send-button:hover {
       background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: var(--box-shadow-md);
     }
     
     .send-button:active {
@@ -1144,109 +1175,169 @@
     }
     
     .send-button:disabled {
-      background: #9CA3AF;
+      background: var(--gray-400);
       cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
     
-    /* Guided tour overlay */
-    .tour-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 9999;
-      display: none;
+    .system-message {
+      text-align: center;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem 0;
+      border-radius: var(--border-radius-xl);
+      font-size: 0.875rem;
+      color: var(--gray-500);
+      background: rgba(0, 0, 0, 0.03);
+      width: fit-content;
+      align-self: center;
+      border: 1px solid var(--gray-200);
     }
     
-    .tour-tooltip {
-      position: absolute;
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      max-width: 300px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      animation: fadeIn 0.3s ease-out;
+    .error-message {
+      color: var(--danger);
+      background: var(--danger-light);
+      border-color: var(--danger-light);
     }
     
-    body.dark-mode .tour-tooltip {
-      background: #2a2a2a;
-      color: #f0f0f0;
+    /* Markdown-like formatting */
+    .markdown-content {
+      white-space: pre-wrap;
     }
-    
-    .tour-tooltip:after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
+
+    .markdown-content em {
+      font-style: italic;
     }
-    
-    .tour-tooltip.bottom:after {
-      border-bottom-color: white;
-      top: -20px;
-      left: 20px;
+
+    .markdown-content strong {
+      font-weight: 600;
     }
-    
-    .tour-tooltip.top:after {
-      border-top-color: white;
-      bottom: -20px;
-      left: 20px;
+
+    .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+      font-weight: 600;
+      margin: 1rem 0 0.5rem;
     }
-    
-    .tour-tooltip.left:after {
-      border-left-color: white;
-      right: -20px;
-      top: 20px;
+
+    .markdown-content h1 {
+      font-size: 1.375rem;
     }
-    
-    .tour-tooltip.right:after {
-      border-right-color: white;
-      left: -20px;
-      top: 20px;
+
+    .markdown-content h2 {
+      font-size: 1.25rem;
     }
-    
-    body.dark-mode .tour-tooltip.bottom:after {
-      border-bottom-color: #2a2a2a;
+
+    .markdown-content h3 {
+      font-size: 1.125rem;
     }
-    
-    body.dark-mode .tour-tooltip.top:after {
-      border-top-color: #2a2a2a;
+
+    .markdown-content pre {
+      background: var(--gray-100);
+      padding: 0.875rem;
+      border-radius: var(--border-radius);
+      margin: 0.875rem 0;
+      overflow-x: auto;
+      border: 1px solid var(--gray-200);
     }
-    
-    body.dark-mode .tour-tooltip.left:after {
-      border-left-color: #2a2a2a;
+
+    .markdown-content code {
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      background: var(--gray-100);
+      padding: 0.25rem 0.375rem;
+      border-radius: var(--border-radius-sm);
+      font-size: 0.875rem;
+      color: var(--gray-800);
     }
-    
-    body.dark-mode .tour-tooltip.right:after {
-      border-right-color: #2a2a2a;
+
+    .markdown-content ul, .markdown-content ol {
+      margin-left: 1.5rem;
+      margin-top: 0.75rem;
+      margin-bottom: 0.75rem;
     }
-    
-    .tour-buttons {
+
+    .markdown-content li {
+      margin-bottom: 0.375rem;
+    }
+
+    /* Quick questions buttons */
+    .quick-questions {
       display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+      margin-bottom: 1rem;
+    }
+
+    .quick-question-btn {
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--primary-light);
+      border-radius: var(--border-radius-full);
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      box-shadow: var(--box-shadow-sm);
+    }
+
+    .quick-question-btn:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: var(--box-shadow);
+    }
+
+    .quick-question-btn:active {
+      transform: scale(0.97);
     }
     
-    .tour-button {
+    /* Chat floating button */
+    .chat-fab {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
       background: var(--primary);
       color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--box-shadow-lg);
       cursor: pointer;
+      z-index: 100;
+      transition: var(--transition);
     }
-    
-    .tour-skip {
-      background: var(--secondary);
+
+    .chat-fab:hover {
+      background: var(--primary-dark);
+      transform: scale(1.1);
     }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    .chat-fab i {
+      font-size: 24px;
     }
-    
+
+    /* Custom scrollbar for modern browsers */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--gray-100);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--gray-300);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gray-400);
+    }
+
     /* Responsive styles */
     @media (max-width: 768px) {
       .sidebar-toggle {
@@ -1258,7 +1349,7 @@
         height: 100%;
         transform: translateX(-100%);
         width: 85%;
-        max-width: 320px;
+        max-width: 350px;
         z-index: 10;
       }
       
@@ -1270,24 +1361,48 @@
         grid-template-columns: 1fr;
       }
       
-      .chat-container {
-        width: 100%;
-        height: 60vh;
-        bottom: 0;
-        right: 0;
-        border-radius: 12px 12px 0 0;
+      .message-wrapper {
+        max-width: 85%;
       }
-      
-      .navbar-brand {
-        font-size: 1rem;
+
+      .nav-tabs {
+        gap: 0;
       }
-      
+
       #navbar button {
-        padding: 0.5rem;
+        padding: 0.5rem 0.75rem;
       }
-      
-      .nav-controls {
-        gap: 5px;
+
+      #navbar button span {
+        display: none;
+      }
+
+      #navbar button i {
+        font-size: 1.125rem;
+        margin: 0;
+      }
+
+      .chat-header h1 span {
+        display: none;
+      }
+
+      #timelineContent, #strategyContent, #detailsContent {
+        padding: 1.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .message-wrapper {
+        max-width: 95%;
+      }
+
+      .quick-questions {
+        gap: 0.5rem;
+      }
+
+      .quick-question-btn {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
       }
     }
   </style>
@@ -1302,44 +1417,20 @@
       </div>
       <div class="nav-tabs">
         <button id="btn-map" class="active" onclick="switchView('view-map')">
-          <i class="fas fa-map-marked-alt"></i> Map
+          <i class="fas fa-map-marked-alt"></i> <span>Map</span>
         </button>
         <button id="btn-timeline" onclick="switchView('view-timeline')">
-          <i class="fas fa-history"></i> Timeline
+          <i class="fas fa-history"></i> <span>Timeline</span>
         </button>
         <button id="btn-strategy" onclick="switchView('view-strategy')">
-          <i class="fas fa-chess"></i> Strategy
+          <i class="fas fa-chess"></i> <span>Strategy</span>
         </button>
         <button id="btn-details" onclick="switchView('view-details')">
-          <i class="fas fa-file-alt"></i> Details
+          <i class="fas fa-file-alt"></i> <span>Details</span>
         </button>
-      </div>
-      <div class="nav-controls">
-        <button class="search-toggle" id="search-toggle" title="Search">
-          <i class="fas fa-search"></i>
+        <button id="btn-chat" onclick="switchView('view-chat')">
+          <i class="fas fa-robot"></i> <span>AI Assistant</span>
         </button>
-        <button class="theme-toggle" id="theme-toggle" title="Toggle Dark Mode">
-          <i class="fas fa-moon"></i>
-        </button>
-        <button class="chat-toggle" id="chat-toggle" title="Ask Questions">
-          <i class="fas fa-comment-dots"></i>
-        </button>
-        <button class="tour-button" id="start-tour" title="Start Tour">
-          <i class="fas fa-info-circle"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Search Panel -->
-    <div class="search-panel" id="search-panel">
-      <div class="search-input-container">
-        <input type="text" class="search-input" id="search-input" placeholder="Search for locations, strategies, or keywords...">
-        <button class="search-toggle" onclick="toggleSearch()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="search-results" id="search-results">
-        <!-- Search results will be inserted here by JavaScript -->
       </div>
     </div>
 
@@ -1357,15 +1448,15 @@
             <div class="filter-title">
               <i class="fas fa-filter"></i> Entity Types
             </div>
-            <div>
+            <div class="filter-option">
               <input type="checkbox" id="filter-operations" checked>
               <label for="filter-operations">Operations</label>
             </div>
-            <div>
+            <div class="filter-option">
               <input type="checkbox" id="filter-partnerships" checked>
               <label for="filter-partnerships">Partnerships</label>
             </div>
-            <div>
+            <div class="filter-option">
               <input type="checkbox" id="filter-opportunities" checked>
               <label for="filter-opportunities">Opportunities</label>
             </div>
@@ -1413,11 +1504,9 @@
       <!-- Timeline View -->
       <div id="view-timeline" class="view">
         <div id="timelineContent">
-          <h2><i class="fas fa-history"></i> Timeline of RIL's International Presence</h2>
-          
-          <div class="timeline-chart-container">
-            <h3>Expansion Over Time</h3>
-            <canvas id="timelineChart"></canvas>
+          <div class="timeline-header">
+            <h2><i class="fas fa-history"></i> Timeline of RIL's International Presence</h2>
+            <p>Explore Reliance Industries' evolution from a domestic textile player in the 1960s to a global energy conglomerate, with key milestones in international expansion and strategic partnerships.</p>
           </div>
           
           <div class="timeline-controls">
@@ -1444,7 +1533,7 @@
         <div id="strategyContent">
           <div class="strategy-header">
             <h2><i class="fas fa-chess"></i> Strategic Insights & Recommendations</h2>
-            <p>A comprehensive roadmap for RIL's international growth and development across different time horizons.</p>
+            <p>A comprehensive roadmap for RIL's international growth and development across different time horizons, based on historical performance, market selection criteria, and organizational considerations.</p>
           </div>
           
           <div class="strategy-cards">
@@ -1453,18 +1542,20 @@
               <ul>
                 <li>Focus on low-risk, high-synergy markets (e.g., strengthen presence in the Middle East).</li>
                 <li>Optimize entry modes via strategic alliances (e.g., extend the BP partnership model).</li>
-                <li>Quick organizational wins: streamline decision-making through an International Operations Cell.</li>
-                <li>Engage stakeholders with targeted CSR initiatives and transparent ESG reporting.</li>
+                <li>Create an International Operations Cell to streamline decision-making and expedite approvals.</li>
+                <li>Engage stakeholders with targeted CSR initiatives in host communities and transparent ESG reporting.</li>
+                <li>Build on existing ventures like the BP gas JV and new UAE chemical JV with ADNOC.</li>
               </ul>
             </div>
             
             <div class="strategy-card medium-term">
               <h3><i class="fas fa-chart-line"></i> Medium-Term (3–7 Years)</h3>
               <ul>
-                <li>Selective upstream investments in politically stable, high-demand regions.</li>
-                <li>Expand downstream and petrochemical capacities in key markets.</li>
-                <li>Establish regional hubs and local talent to boost agility.</li>
-                <li>Regularly review and adjust entry modes based on performance.</li>
+                <li>Selective upstream investments in politically stable, high-demand regions with focus on natural gas assets.</li>
+                <li>Expand downstream and petrochemical capacities in key markets to secure supply chains.</li>
+                <li>Establish regional hubs (e.g., Middle East & Africa hub in Dubai) with delegated authority.</li>
+                <li>Increase local talent in leadership – aim for 30% local nationals in management of overseas ventures.</li>
+                <li>Publish International Sustainability Report to address NGO and investor stakeholder demands.</li>
               </ul>
             </div>
             
@@ -1472,22 +1563,23 @@
               <h3><i class="fas fa-rocket"></i> Long-Term (7+ Years)</h3>
               <ul>
                 <li>Transition to a transnational model balancing global integration with local responsiveness.</li>
-                <li>Build an integrated global network (including digital twin operations centers).</li>
-                <li>Consider establishing a separate global holding for international assets.</li>
+                <li>Build an integrated global network with digital twin operations centers to optimize flows.</li>
+                <li>Consider establishing "Reliance International" as a separate holding for non-India energy assets.</li>
                 <li>Deepen stakeholder trust through global sustainability partnerships and local engagement.</li>
+                <li>Develop country-specific business units for new energy that adapt solutions to local markets.</li>
               </ul>
             </div>
           </div>
           
           <div class="details-section">
             <h3>Short-Term Implementation</h3>
-            <p>In the immediate 1-3 year period, RIL should focus on strengthening its position in existing markets while carefully evaluating new opportunities. This includes consolidating and optimizing ventures like the BP gas JV, building stakeholder goodwill through strategic CSR initiatives, and evaluating partnerships in promising regions for renewables or LNG developments.</p>
+            <p>In the immediate 1-3 year period, RIL should focus on strengthening its position in existing markets while carefully evaluating new opportunities. This includes consolidating and optimizing ventures like the BP gas JV, building stakeholder goodwill through strategic CSR initiatives, and evaluating partnerships in promising regions for renewables or LNG developments. For market selection, prioritize regions that complement existing operations, particularly the Middle East where political stability is reasonably high and feedstock is abundant.</p>
             
             <h3>Medium-Term Growth</h3>
-            <p>During the 3-7 year horizon, RIL can selectively pursue upstream projects in stable regions, focusing on gas-rich but politically secure countries. Downstream expansions should target key markets to secure supply chains. The organization should also begin decentralizing decision-making by empowering regional hubs in trading and project management.</p>
+            <p>During the 3-7 year horizon, RIL can selectively pursue upstream projects in stable regions, focusing on gas-rich but politically secure countries. Downstream expansions should target key markets to secure supply chains. The organization should also begin decentralizing decision-making by empowering regional hubs in trading and project management. Talent localization should be prioritized, with at least 30% of mid-to-senior management as local hires in international subsidiaries. This balanced approach will enable better regional strategy coherence and improved stakeholder relations.</p>
             
             <h3>Long-Term Vision</h3>
-            <p>For the 7+ year perspective, RIL should pivot toward a transnational approach that balances global efficiencies with local adaptation, particularly in new energy businesses like green hydrogen and solar manufacturing. Establishing a separate international holding structure could provide better governance for overseas assets, while continually deepening stakeholder relationships across markets.</p>
+            <p>For the 7+ year perspective, RIL should pivot toward a transnational approach that balances global efficiencies with local adaptation, particularly in new energy businesses like green hydrogen and solar manufacturing. Establishing a separate international holding structure could provide better governance for overseas assets, while continually deepening stakeholder relationships across markets. The company should aim to have a balanced international portfolio, potentially re-entering high-potential markets once conditions improve, while divesting assets that no longer fit the strategic direction.</p>
           </div>
         </div>
       </div>
@@ -1499,44 +1591,83 @@
           
           <div class="details-section">
             <h3>Historical Evolution</h3>
-            <p>RIL's journey from a domestic textile player to a global energy conglomerate is marked by bold international forays, key strategic partnerships, and evolving entry modes. Initially expanding aggressively through overseas asset acquisitions and joint ventures – including landmark initiatives like the BP gas marketing partnership – RIL learned that centralization ensured strategic coherence while limiting local responsiveness.</p>
+            <p>RIL's journey from a domestic textile player to a global energy conglomerate is marked by bold international forays, key strategic partnerships, and evolving entry modes. Initially expanding aggressively through overseas asset acquisitions and joint ventures – including landmark initiatives like the BP gas marketing partnership in 2011 (BP acquired 30% stake in RIL's 23 oil and gas production-sharing contracts for $7.2 billion) – RIL learned that centralization ensured strategic coherence while limiting local responsiveness.</p>
             
-            <p>Over time, RIL recalibrated its approach by consolidating ventures, adopting asset-light strategies, and increasingly relying on partnerships to mitigate risk. Its evolution from current aggressive expansion toward a more measured, transnational strategy reflects lessons learned from operating in diverse regulatory, geopolitical, and market environments.</p>
+            <p>Over time, RIL recalibrated its approach by consolidating ventures, adopting asset-light strategies, and increasingly relying on partnerships to mitigate risk. Its evolution from aggressive expansion toward a more measured, transnational strategy reflects lessons learned from operating in diverse regulatory, geopolitical, and market environments. By 2016-17, RIL had divested or relinquished almost all international blocks outside India, retaining only two gas blocks in Myanmar, signaling a strategic pivot back to domestic projects and new businesses.</p>
           </div>
           
           <div class="details-section">
             <h3>Global vs. Local Strategy</h3>
-            <p>RIL's international approach aligns with a global/international strategy on the Integration-Responsiveness grid. The company emphasizes centralized scale and efficiency (e.g., exporting refined fuels globally from India) over local adaptation. It partners with foreign firms for technology and market access rather than deeply customizing products per country.</p>
+            <p>RIL's international approach aligns with a global/international strategy on the Integration-Responsiveness grid. The company emphasizes centralized scale and efficiency (e.g., exporting refined fuels globally from India) over local adaptation. It partners with foreign firms for technology and market access rather than deeply customizing products per country. RIL leverages the same strengths developed at home (technical know-how, project execution, capital) and applies them abroad.</p>
             
-            <p>This approach yields cost advantages and consistent quality but can limit local responsiveness. Notably, RIL's upstream ventures abroad were managed via its Dubai subsidiary, indicating central control with modest local autonomy.</p>
+            <p>This approach yields cost advantages and consistent quality but can limit local responsiveness. Notably, RIL's upstream ventures abroad were managed via its Dubai subsidiary, indicating central control with modest local autonomy. It is only in very recent years, with moves into consumer-facing sectors and renewable energy, that RIL's thinking has started to incorporate more transnational elements that balance global efficiencies with local market adaptation.</p>
           </div>
           
           <div class="details-section">
             <h3>Foreign Market Selection</h3>
-            <p>RIL prioritized foreign markets rich in natural resources or strategic value. It acquired oil & gas assets in resource-abundant countries like Yemen, Oman, Peru, Kurdistan (Iraq), East Timor, Australia, and the United States. Market selection criteria included hydrocarbon potential, geopolitical considerations, and partnership opportunities.</p>
+            <p>RIL prioritized foreign markets rich in natural resources or strategic value. It acquired oil & gas assets in resource-abundant countries like Yemen, Oman, Peru, Kurdistan (Iraq), East Timor, Australia, and the United States. Market selection criteria included hydrocarbon potential (e.g., shale gas boom in the U.S.), geopolitical considerations (e.g., entering Myanmar in 2014 amid opening economy), and partnership opportunities (e.g., aligning with BP in India, proposed Saudi Aramco deal).</p>
             
-            <p>However, political and regulatory risks posed significant challenges—Yemen's civil instability and contractual disputes in Kurdistan led to exits. Successes were limited; many overseas exploration projects did not reach production, and U.S. shale investments faced profitability issues with falling gas prices.</p>
+            <p>However, political and regulatory risks posed significant challenges—Yemen's civil instability and contractual disputes in Kurdistan led to exits. Successes were limited; many overseas exploration projects did not reach production, and U.S. shale investments faced profitability issues with falling gas prices. RIL showed a moderate risk appetite: willing to venture into Yemen or Iraq's Kurdistan for big oil opportunities, but also willing to exit when risks outweighed rewards. The pattern suggests RIL did not shy away from distant markets if the prize was right, but its ultimate success rate was higher in markets where the environment was stable.</p>
           </div>
           
           <div class="details-section">
             <h3>Entry Modes</h3>
-            <p>RIL utilized joint ventures, acquisitions, and wholly-owned subsidiaries as entry modes. It set up wholly-owned subsidiaries to bid on international blocks, entered joint ventures with local operators in U.S. shale to leverage partner expertise, and pursued mergers & acquisitions.</p>
+            <p>RIL utilized joint ventures, acquisitions, and wholly-owned subsidiaries as entry modes. It set up wholly-owned subsidiaries (e.g., Reliance E&P DMCC in Dubai) to bid on international blocks. It entered joint ventures with local operators in U.S. shale to leverage partner expertise: 40% stake with Atlas Energy in Marcellus Shale for $1.7 billion, 45% with Pioneer in Eagle Ford Shale for $1.35 billion, and 60% with Carrizo Oil & Gas for ~$392 million.</p>
             
-            <p>These modes were chosen to manage risk and gain know-how—JVs gave RIL technical expertise and spread capital costs, while acquisitions offered instant global scale. The effectiveness was mixed: JVs helped RIL learn but also led to write-downs when market conditions changed.</p>
+            <p>These modes were chosen to manage risk and gain know-how—JVs gave RIL technical expertise and spread capital costs, while acquisitions offered instant global scale. The effectiveness was mixed: JVs helped RIL learn (e.g., advanced shale drilling techniques) but also led to write-downs when market conditions changed, whereas the attempted LyondellBasell acquisition in 2009-10 failed amid the target's financial issues. The combination of entry modes complemented each other—JVs for learning, wholly-owned subsidiaries for control/trade, exports for immediate market penetration, and attempted M&A for quantum leaps.</p>
           </div>
           
           <div class="details-section">
             <h3>Organizational Structure</h3>
-            <p>RIL's international operations are highly centralized. Key decisions and strategy originate from headquarters in Mumbai, with overseas arms executing rather than strategizing. For example, its Singapore trading subsidiary had limited autonomy.</p>
+            <p>RIL's international operations are highly centralized. Key decisions and strategy originate from headquarters in Mumbai, with overseas arms executing rather than strategizing. For example, its Singapore trading subsidiary had limited autonomy ("no real trading authority" was given to local staff) leading to the team's exit. The company manages global trading through Mumbai and maintains foreign subsidiaries in hubs like London, Singapore, and Dubai for presence.</p>
             
-            <p>The company manages global trading through Mumbai and maintains foreign subsidiaries in hubs like London, Singapore, and Dubai for presence. This centralized structure ensures strategic alignment and control over finances but poses challenges in agility and local market responsiveness.</p>
+            <p>This centralized structure ensures strategic alignment and control over finances but poses challenges in agility and local market responsiveness. The departure of the Singapore trading team in 2009 illustrates how even day-to-day decisions required Mumbai's nod, a highly centralized approach. The benefit of such centralization is strategic coherence and risk control, but local agility can suffer. In dynamic markets, waiting for Mumbai to approve can slow down responses, and there's risk of headquarters being distant from on-ground realities.</p>
           </div>
           
           <div class="details-section">
             <h3>Stakeholder Management</h3>
-            <p>RIL engages proactively with governments and regulators in foreign markets, recognizing political capital as key in energy. It often partners with state-owned firms to align with host government interests. Culturally, RIL adapts by hiring local experts or partnering with local companies in sensitive regions.</p>
+            <p>RIL engages proactively with governments and regulators in foreign markets, recognizing political capital as key in energy. It often partners with state-owned firms (e.g., talks with ONGC Videsh for joint bidding) to align with host government interests. Culturally, RIL adapts by hiring local experts or partnering with local companies in sensitive regions.</p>
             
-            <p>However, its stakeholder approach has sometimes been reactive—for instance, continuing oil trade with sanctioned Russia in 2022 drew NGO criticism, indicating a focus on business over reputational risk until external pressure mounts. In community and NGO relations, RIL's CSR abroad has been less public; its major CSR efforts are concentrated in India.</p>
+            <p>However, its stakeholder approach has sometimes been reactive—for instance, continuing oil trade with sanctioned Russia in 2022 drew NGO criticism, indicating a focus on business over reputational risk until external pressure mounts. In community and NGO relations, RIL's CSR abroad has been less public; its major CSR efforts (healthcare, education, disaster relief) are concentrated in India. RIL tends to be proactive with governments and customers, but more reactive with NGOs and communities. This is an area flagged for improvement as global standards for Environmental, Social, and Governance (ESG) rise.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat View -->
+      <div id="view-chat" class="view">
+        <div class="chat-container">
+          <div class="chat-header">
+            <h1><i class="fas fa-robot"></i> <span>RIL Strategy Assistant</span></h1>
+            <div class="chat-actions">
+              <button class="action-button" id="clear-chat" title="Clear chat history">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="messages-container" id="messages">
+            <!-- Messages will be inserted here -->
+          </div>
+          
+          <div class="chat-input-container">
+            <div class="quick-questions">
+              <button class="quick-question-btn" data-question="What is RIL's strategy in the Middle East?">Middle East Strategy</button>
+              <button class="quick-question-btn" data-question="How did RIL's international strategy evolve over time?">Strategy Evolution</button>
+              <button class="quick-question-btn" data-question="What entry modes did RIL use internationally?">Entry Modes</button>
+              <button class="quick-question-btn" data-question="Explain RIL's organizational structure overseas">Org Structure</button>
+              <button class="quick-question-btn" data-question="Show me key markets on the map">Key Markets</button>
+            </div>
+            <div class="chat-input-row">
+              <textarea 
+                id="user-input" 
+                class="chat-input" 
+                placeholder="Ask about RIL's global strategy..." 
+                rows="1"
+                maxlength="1000"></textarea>
+              <button id="send-button" class="send-button" disabled>
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1556,158 +1687,76 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Chatbot UI -->
-      <div class="chat-container" id="chat-container">
-        <div class="chat-header">
-          <h3><i class="fas fa-robot"></i> RIL Strategy Assistant</h3>
-          <div class="chat-actions">
-            <button class="chat-action-button" id="clear-chat" title="Clear chat">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-            <button class="chat-action-button" id="close-chat" title="Close chat">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </div>
-        <div class="messages-container" id="messages">
-          <!-- Messages will be inserted here by JavaScript -->
-        </div>
-        <div class="chat-input-container">
-          <textarea id="chat-input" class="chat-input" placeholder="Ask about RIL's strategy..." rows="1" maxlength="1000"></textarea>
-          <button id="send-button" class="send-button" disabled>
-            <i class="fas fa-paper-plane"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Tour overlay for guided tour -->
-      <div class="tour-overlay" id="tour-overlay">
-        <div class="tour-tooltip" id="tour-tooltip">
-          <div class="tour-content" id="tour-content"></div>
-          <div class="tour-buttons">
-            <button class="tour-button tour-skip" id="tour-skip">Skip Tour</button>
-            <button class="tour-button" id="tour-next">Next</button>
-          </div>
-        </div>
-      </div>
+    <!-- Floating chat button (visible in all views except chat) -->
+    <div class="chat-fab" id="chat-fab" onclick="switchView('view-chat')">
+      <i class="fas fa-comment-dots"></i>
     </div>
   </div>
 
   <!-- Leaflet JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.js"></script>
-  <!-- Chart.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
   <script>
-    // Define marker data with additional properties: type (operation, partnership, opportunity), status (current, past, future), and year.
+    // Enhanced marker data with additional historical context from document
     const markersData = [
-      {name: "Mumbai, India (HQ)", coords: [19.0760, 72.8777], type: "operation", status: "current", year: 1990, description: "Mumbai HQ – the nerve center for strategic global integration with centralized decision-making, coordinating all international ventures."},
-      {name: "Jamnagar Refinery, India", coords: [22.4707, 70.0577], type: "operation", status: "current", year: 1990, description: "World's largest refining hub and a major export powerhouse, producing fuels and petrochemicals for global markets with advanced technology."},
-      {name: "Dubai, UAE", coords: [25.2048, 55.2708], type: "operation", status: "current", year: 2007, description: "Reliance E&P DMCC – dedicated hub for international exploration that oversees global upstream investments with a focus on strategic partnerships."},
-      {name: "Singapore Trading Hub", coords: [1.3521, 103.8198], type: "operation", status: "current", year: 2008, description: "Key international trading operations handling refined products and petrochemicals for Asian markets, though with limited local autonomy."},
-      {name: "London Trading Hub, UK", coords: [51.5074, -0.1278], type: "operation", status: "current", year: 2008, description: "Global energy trading center focusing on European and Atlantic basin markets, working in coordination with Mumbai HQ for strategic decisions."},
-      {name: "Marcellus Shale, USA (Pennsylvania)", coords: [41.2033, -77.1945], type: "operation", status: "past", year: 2010, description: "U.S. shale gas JV with Atlas Energy (40% stake, $1.7B investment) – a venture now in the past due to market volatility and economic challenges."},
-      {name: "Eagle Ford Shale, USA (Texas)", coords: [29.7604, -95.3698], type: "operation", status: "past", year: 2010, description: "U.S. shale gas JV with Pioneer Natural Resources (45% stake, $1.35B) – operations that were phased out when gas prices fell and profitability declined."},
-      {name: "Yemen Oil Block", coords: [15.5527, 48.5164], type: "operation", status: "past", year: 2007, description: "Former oil block with production halted by conflict. Initially promising with some production success before civil unrest forced exit."},
-      {name: "Oman Oil Blocks", coords: [21.4735, 55.9754], type: "operation", status: "past", year: 2007, description: "Acquired blocks in a resource‐rich region with modest yields but eventually relinquished due to limited commercial success despite political stability."},
-      {name: "Peru Exploration Blocks", coords: [-9.189967, -75.015152], type: "operation", status: "past", year: 2007, description: "Latin American exploration blocks acquired for potential gains in the Amazon basin, but exited by 2017 without major discoveries."},
-      {name: "Kurdistan, Iraq", coords: [36.1911, 44.0092], type: "operation", status: "past", year: 2007, description: "Exploration block marked by significant geopolitical challenges including disputes between regional and central governments, leading to eventual exit."},
-      {name: "Myanmar Offshore Blocks", coords: [21.9162, 95.9560], type: "operation", status: "current", year: 2014, description: "Offshore gas blocks acquired during Myanmar's reform phase, representing RIL's last major international exploration investment before strategic pivot."},
-      {name: "East Timor Block", coords: [-8.8742, 125.7275], type: "operation", status: "past", year: 2007, description: "Offshore block in a nascent market with high potential that was later dropped due to regulatory uncertainties and boundary disputes."},
-      {name: "Australian Exploration Block", coords: [-25.2744, 133.7751], type: "operation", status: "past", year: 2007, description: "Exploration block in offshore gas prospects that was part of RIL's aggressive international expansion phase but yielded limited results."},
-      {name: "BP Partnership (UK)", coords: [51.515, -0.12], type: "partnership", status: "current", year: 2011, description: "Strategic 50:50 joint venture with BP for gas marketing in India, following BP's $7.2B investment for 30% stake in RIL's Indian oil & gas blocks."},
-      {name: "UAE Chemical JV (ADNOC)", coords: [24.4539, 54.3773], type: "partnership", status: "current", year: 2021, description: "Joint venture with Abu Dhabi National Oil Company (ADNOC) for chemical projects at the TA'ZIZ Industrial Complex in Ruwais."},
-      {name: "Nigeria Opportunity", coords: [6.5244, 3.3792], type: "opportunity", status: "future", year: 2023, description: "Emerging market with promising downstream opportunities in refining and petrochemicals, aligned with Nigeria's need for domestic processing capacity."},
-      {name: "Mozambique LNG Opportunity", coords: [-18.6657, 35.5296], type: "opportunity", status: "future", year: 2024, description: "Potential investment in East African LNG development, representing a strategic opportunity to secure gas resources in a politically stabilizing region."}
+      {name: "Mumbai, India (HQ)", coords: [19.0760, 72.8777], type: "operation", status: "current", year: 1990, description: "Mumbai HQ – the nerve center for strategic global integration with centralized decision-making, coordinating all international ventures. RIL's leadership maintains tight control over foreign operations from this headquarters."},
+      {name: "Jamnagar Refinery, India", coords: [22.4707, 70.0577], type: "operation", status: "current", year: 1990, description: "World's largest refining hub and a major export powerhouse, producing fuels and petrochemicals for global markets with advanced technology. Jamnagar represents 7% of India's total merchandise exports, reflecting RIL's global integration strategy."},
+      {name: "Dubai, UAE", coords: [25.2048, 55.2708], type: "operation", status: "current", year: 2007, description: "Reliance E&P DMCC – established in 2007 as a dedicated hub for international exploration that oversees global upstream investments with a focus on strategic partnerships. This entity was created specifically to hold and manage overseas exploration licenses."},
+      {name: "Singapore Trading Hub", coords: [1.3521, 103.8198], type: "operation", status: "current", year: 2008, description: "Key international trading operations handling refined products and petrochemicals for Asian markets, though with limited local autonomy. The entire Singapore trading desk once quit due to lack of empowerment, highlighting challenges in RIL's centralized decision-making."},
+      {name: "London Trading Hub, UK", coords: [51.5074, -0.1278], type: "operation", status: "current", year: 2008, description: "Global energy trading center focusing on European and Atlantic basin markets, working in coordination with Mumbai HQ for strategic decisions. Established in 2008 to tap global markets and improve arbitrage trading of refined fuels."},
+      {name: "Marcellus Shale, USA (Pennsylvania)", coords: [41.2033, -77.1945], type: "operation", status: "past", year: 2010, description: "U.S. shale gas JV with Atlas Energy (40% stake, $1.7B investment) acquired in 2010. This venture, now in the past, was part of RIL's aggressive push into the U.S. shale gas boom but faced challenges due to market volatility and falling gas prices."},
+      {name: "Eagle Ford Shale, USA (Texas)", coords: [29.7604, -95.3698], type: "operation", status: "past", year: 2010, description: "U.S. shale gas JV with Pioneer Natural Resources (45% stake, $1.35B) acquired in 2010. Operations were phased out when gas prices fell and profitability declined. Initially part of RIL's strategic aim to become 'one of the key five to six companies in the shale business.'"},
+      {name: "Yemen Oil Block", coords: [15.5527, 48.5164], type: "operation", status: "past", year: 2007, description: "Former oil block acquired in 2007 with production halted by conflict. Initially promising with some production success before civil unrest forced exit. RIL sold its stake by 2012 when Yemen's political instability grew, highlighting political risk in market selection."},
+      {name: "Oman Oil Blocks", coords: [21.4735, 55.9754], type: "operation", status: "past", year: 2007, description: "Acquired blocks in a resource‐rich region with modest yields but eventually relinquished due to limited commercial success despite political stability. Part of RIL's Middle East strategy to establish a foothold near the world's energy hub."},
+      {name: "Peru Exploration Blocks", coords: [-9.189967, -75.015152], type: "operation", status: "past", year: 2007, description: "Latin American exploration blocks acquired for potential gains in the Amazon basin, but exited by 2017 without major discoveries. RIL had acquired stakes in four blocks in Peru, attracted by its investor-friendly policies and under-explored basins."},
+      {name: "Kurdistan, Iraq", coords: [36.1911, 44.0092], type: "operation", status: "past", year: 2007, description: "Exploration block marked by significant geopolitical challenges including disputes between regional and central governments, leading to eventual exit. RIL's move into Kurdistan in 2007-08 was alongside other independent oil firms during an oil rush there."},
+      {name: "Myanmar Offshore Blocks", coords: [21.9162, 95.9560], type: "operation", status: "current", year: 2014, description: "Offshore gas blocks acquired during Myanmar's reform phase in 2014, representing RIL's last major international exploration investment before strategic pivot. Myanmar was opening to foreign investment post-2011 reforms, making it an attractive frontier market."},
+      {name: "East Timor Block", coords: [-8.8742, 125.7275], type: "operation", status: "past", year: 2007, description: "Offshore block in a nascent market with high potential that was later dropped due to regulatory uncertainties and boundary disputes. East Timor was a new nation with political risk but large gas fields – RIL likely aimed to get in early."},
+      {name: "Australian Exploration Block", coords: [-25.2744, 133.7751], type: "operation", status: "past", year: 2007, description: "Exploration block in offshore gas prospects that was part of RIL's aggressive international expansion phase but yielded limited results. This block, along with East Timor, was chosen for offshore gas prospects in the Timor Sea region."},
+      {name: "BP Partnership (UK)", coords: [51.515, -0.12], type: "partnership", status: "current", year: 2011, description: "Strategic 50:50 joint venture with BP for gas marketing in India, following BP's $7.2B investment for 30% stake in RIL's 23 Indian oil & gas blocks. This 2011 partnership was a watershed moment, bringing in technology and affirming RIL's willingness to collaborate internationally."},
+      {name: "UAE Chemical JV (ADNOC)", coords: [24.4539, 54.3773], type: "partnership", status: "current", year: 2021, description: "Joint venture with Abu Dhabi National Oil Company (ADNOC) for chemical projects at the TA'ZIZ Industrial Complex in Ruwais. This recent partnership exemplifies RIL's continued focus on the Middle East as a key strategic region."},
+      {name: "Nigeria Opportunity", coords: [6.5244, 3.3792], type: "opportunity", status: "future", year: 2023, description: "Emerging market with promising downstream opportunities in refining and petrochemicals, aligned with Nigeria's need for domestic processing capacity. If governance improves, Nigeria could be a market where RIL's downstream prowess fits well."},
+      {name: "Mozambique LNG Opportunity", coords: [-18.6657, 35.5296], type: "opportunity", status: "future", year: 2024, description: "Potential investment in East African LNG development, representing a strategic opportunity to secure gas resources in a politically stabilizing region. Natural gas projects align with energy transition as gas is seen as a bridge fuel."}
     ];
 
-    // Strategy data for search and chatbot
-    const strategyData = {
-      shortTerm: {
-        title: "Short-Term Strategy (1-3 Years)",
-        points: [
-          "Focus on low-risk, high-synergy markets (e.g., strengthen presence in the Middle East)",
-          "Optimize entry modes via strategic alliances (e.g., extend the BP partnership model)",
-          "Quick organizational wins: streamline decision-making through an International Operations Cell",
-          "Engage stakeholders with targeted CSR initiatives and transparent ESG reporting"
-        ],
-        details: "In the immediate 1-3 year period, RIL should focus on strengthening its position in existing markets while carefully evaluating new opportunities. This includes consolidating and optimizing ventures like the BP gas JV, building stakeholder goodwill through strategic CSR initiatives, and evaluating partnerships in promising regions for renewables or LNG developments."
-      },
-      mediumTerm: {
-        title: "Medium-Term Strategy (3-7 Years)",
-        points: [
-          "Selective upstream investments in politically stable, high-demand regions",
-          "Expand downstream and petrochemical capacities in key markets",
-          "Establish regional hubs and local talent to boost agility",
-          "Regularly review and adjust entry modes based on performance"
-        ],
-        details: "During the 3-7 year horizon, RIL can selectively pursue upstream projects in stable regions, focusing on gas-rich but politically secure countries. Downstream expansions should target key markets to secure supply chains. The organization should also begin decentralizing decision-making by empowering regional hubs in trading and project management."
-      },
-      longTerm: {
-        title: "Long-Term Strategy (7+ Years)",
-        points: [
-          "Transition to a transnational model balancing global integration with local responsiveness",
-          "Build an integrated global network (including digital twin operations centers)",
-          "Consider establishing a separate global holding for international assets",
-          "Deepen stakeholder trust through global sustainability partnerships and local engagement"
-        ],
-        details: "For the 7+ year perspective, RIL should pivot toward a transnational approach that balances global efficiencies with local adaptation, particularly in new energy businesses like green hydrogen and solar manufacturing. Establishing a separate international holding structure could provide better governance for overseas assets, while continually deepening stakeholder relationships across markets."
-      }
-    };
-
-    // Analysis data for search and chatbot
-    const analysisData = {
-      evolution: {
-        title: "Historical Evolution",
-        content: "RIL's journey from a domestic textile player to a global energy conglomerate is marked by bold international forays, key strategic partnerships, and evolving entry modes. Initially expanding aggressively through overseas asset acquisitions and joint ventures – including landmark initiatives like the BP gas marketing partnership – RIL learned that centralization ensured strategic coherence while limiting local responsiveness. Over time, RIL recalibrated its approach by consolidating ventures, adopting asset-light strategies, and increasingly relying on partnerships to mitigate risk."
-      },
-      globalLocal: {
-        title: "Global vs. Local Strategy",
-        content: "RIL's international approach aligns with a global/international strategy on the Integration-Responsiveness grid. The company emphasizes centralized scale and efficiency (e.g., exporting refined fuels globally from India) over local adaptation. It partners with foreign firms for technology and market access rather than deeply customizing products per country. This approach yields cost advantages and consistent quality but can limit local responsiveness."
-      },
-      marketSelection: {
-        title: "Foreign Market Selection",
-        content: "RIL prioritized foreign markets rich in natural resources or strategic value. It acquired oil & gas assets in resource-abundant countries like Yemen, Oman, Peru, Kurdistan (Iraq), East Timor, Australia, and the United States. Market selection criteria included hydrocarbon potential, geopolitical considerations, and partnership opportunities. However, political and regulatory risks posed significant challenges."
-      },
-      entryModes: {
-        title: "Entry Modes",
-        content: "RIL utilized joint ventures, acquisitions, and wholly-owned subsidiaries as entry modes. It set up wholly-owned subsidiaries to bid on international blocks, entered joint ventures with local operators in U.S. shale to leverage partner expertise, and pursued mergers & acquisitions. These modes were chosen to manage risk and gain know-how."
-      },
-      organizational: {
-        title: "Organizational Structure",
-        content: "RIL's international operations are highly centralized. Key decisions and strategy originate from headquarters in Mumbai, with overseas arms executing rather than strategizing. For example, its Singapore trading subsidiary had limited autonomy. The company manages global trading through Mumbai and maintains foreign subsidiaries in hubs like London, Singapore, and Dubai for presence."
-      },
-      stakeholder: {
-        title: "Stakeholder Management",
-        content: "RIL engages proactively with governments and regulators in foreign markets, recognizing political capital as key in energy. It often partners with state-owned firms to align with host government interests. Culturally, RIL adapts by hiring local experts or partnering with local companies in sensitive regions. However, its stakeholder approach has sometimes been reactive."
-      }
-    };
+    // Additional data for Timeline view
+    const additionalTimelineEvents = [
+      {name: "Global Depository Receipt", coords: [19.0760, 72.8777], type: "milestone", status: "past", year: 1993, description: "RIL issued a Global Depository Receipt, becoming one of the first Indian firms to raise equity abroad. This early step signaled an ambition to integrate with global finance and laid groundwork for international growth."},
+      {name: "LyondellBasell Acquisition Attempt", coords: [51.5074, -0.1278], type: "milestone", status: "past", year: 2009, description: "RIL attempted to acquire LyondellBasell, a Netherlands-based petrochemical giant emerging from bankruptcy. Though the deal (valued between $6-14 billion) ultimately fell through, it signaled RIL's intent to take a bold global step."},
+      {name: "Divestment of International E&P Assets", coords: [19.0760, 72.8777], type: "milestone", status: "past", year: 2016, description: "By 2016-17, RIL had divested or relinquished almost all international blocks outside India, retaining only two gas blocks in Myanmar. This marked a strategic re-calibration to focus on domestic projects and new businesses."},
+      {name: "Saudi Aramco O2C Deal Proposed", coords: [19.0760, 72.8777], type: "milestone", status: "past", year: 2019, description: "RIL announced a potential 20% stake sale of its Oil-to-Chemicals (O2C) division to Saudi Aramco. Though put on hold in 2021 due to valuation changes and energy transition priorities, it represented a significant potential partnership."}
+    ];
 
     // Global variables for Leaflet layers and marker objects storage
     let map, markersLayer, connectionsLayer, legend;
     let markerObjects = []; // to store each marker along with its data
     let sidebarExpanded = true;
-    let isDarkMode = false;
-    let timelineChart;
-    let searchIndex = [];
+    
+    // Combine all data for full timeline view
+    const allTimelineData = [...markersData, ...additionalTimelineEvents];
 
     // Initialize the Leaflet map (for Map View)
     function initMap() {
-      map = L.map('map').setView([20, 0], 2);
+      map = L.map('map', {
+        zoomControl: false,
+        attributionControl: false
+      }).setView([20, 0], 2);
       
-      // Use different tile styles for dark/light modes
-      window.mapTiles = {
-        light: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }),
-        dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        })
-      };
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
       
-      window.mapTiles.light.addTo(map);
+      // Add zoom control in a better position
+      L.control.zoom({
+        position: 'bottomright'
+      }).addTo(map);
+      
+      // Add attribution in a better position
+      L.control.attribution({
+        position: 'bottomleft'
+      }).addTo(map);
       
       markersLayer = L.layerGroup().addTo(map);
       connectionsLayer = L.layerGroup().addTo(map);
@@ -1744,11 +1793,11 @@
         const div = L.DomUtil.create('div', 'legend');
         div.innerHTML = `
           <h4>Legend</h4>
-          <div><i style="background:#1976d2"></i> Current Operations</div>
-          <div><i style="background:#757575"></i> Past Operations</div>
-          <div><i style="background:#c2185b"></i> Partnerships</div>
-          <div><i style="background:#388e3c"></i> Future Opportunities</div>
-          <div><i style="background:red; opacity:0.5"></i> Strategic Connections</div>
+          <div><i style="background:#3B82F6"></i> Current Operations</div>
+          <div><i style="background:#9CA3AF"></i> Past Operations</div>
+          <div><i style="background:#DB2777"></i> Partnerships</div>
+          <div><i style="background:#10B981"></i> Future Opportunities</div>
+          <div><i style="background:#EF4444; opacity:0.6"></i> Strategic Connections</div>
         `;
         return div;
       };
@@ -1762,18 +1811,21 @@
       
       if (data.type === "operation") {
         if (data.status === "current") {
-          color = "#1976d2"; // blue
+          color = "#3B82F6"; // blue
           iconUrl = "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png";
         } else {
-          color = "#757575"; // gray
+          color = "#9CA3AF"; // gray
           iconUrl = "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-grey.png";
         }
       } else if (data.type === "partnership") {
-        color = "#c2185b"; // red/pink
+        color = "#DB2777"; // pink
         iconUrl = "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png";
       } else if (data.type === "opportunity") {
-        color = "#388e3c"; // green
+        color = "#10B981"; // green
         iconUrl = "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png";
+      } else if (data.type === "milestone") {
+        color = "#F59E0B"; // orange/amber
+        iconUrl = "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png";
       }
 
       return L.icon({
@@ -1795,8 +1847,23 @@
           riseOnHover: true
         });
         
-        // Simple popup with minimal info
-        marker.bindPopup(`<b>${data.name}</b><br>${data.year} - ${data.status}`);
+        // Enhanced popup with more information
+        const popupContent = `
+          <div style="font-family: 'Inter', sans-serif; padding: 5px;">
+            <h4 style="margin: 0 0 5px; color: #0047AB;">${data.name}</h4>
+            <div style="margin-bottom: 5px;">
+              <span style="font-weight: 500; color: #6B7280;">Established:</span> ${data.year}
+            </div>
+            <div style="margin-bottom: 5px;">
+              <span style="font-weight: 500; color: #6B7280;">Type:</span> ${data.type.charAt(0).toUpperCase() + data.type.slice(1)}
+            </div>
+            <div>
+              <span style="font-weight: 500; color: #6B7280;">Status:</span> ${data.status.charAt(0).toUpperCase() + data.status.slice(1)}
+            </div>
+          </div>
+        `;
+        
+        marker.bindPopup(popupContent);
         
         // Full details on click
         marker.on('click', () => showDetailCard(data));
@@ -1848,20 +1915,24 @@
           
           // If marker is not Mumbai HQ, draw a connection line
           if(d.type === "partnership" || d.type === "opportunity") {
-            // Red dashed line for partnerships
+            // Pink/red line for partnerships, green for opportunities
+            const color = d.type === "partnership" ? "#DB2777" : "#10B981";
             const line = L.polyline([mumbaiCoords, d.coords], {
-              color: 'red',
-              dashArray: '5, 10',
-              weight: 2,
-              opacity: 0.6
+              color: color,
+              dashArray: '5, 8',
+              weight: 2.5,
+              opacity: 0.7,
+              smoothFactor: 1
             });
             connectionsLayer.addLayer(line);
           } else if(d.name !== "Mumbai, India (HQ)" && d.name !== "Jamnagar Refinery, India") {
-            // Blue solid line for operations
+            // Blue solid line for current operations, gray for past
+            const color = d.status === 'current' ? "#3B82F6" : "#9CA3AF";
             const line = L.polyline([mumbaiCoords, d.coords], {
-              color: d.status === 'current' ? '#1976d2' : '#757575',
+              color: color,
               weight: 1.5,
-              opacity: 0.3
+              opacity: 0.4,
+              smoothFactor: 1
             });
             connectionsLayer.addLayer(line);
           }
@@ -1878,22 +1949,20 @@
       const item = document.createElement("div");
       item.className = "marker-item";
       
-      // Determine badge class based on type and status
-      let badgeClass = `type-badge ${data.type}`;
-      if(data.status === "past") {
-        badgeClass += " past";
-      }
+      // Determine badge classes based on type and status
+      const typeClass = `type-badge ${data.type}`;
+      const statusClass = `type-badge ${data.status}`;
       
       item.innerHTML = `
         <div class="title">
           ${data.name}
           <span class="year">${data.year}</span>
         </div>
-        <div>
-          <span class="${badgeClass}">${data.type}</span>
-          <span class="${badgeClass}">${data.status}</span>
+        <div class="marker-badges">
+          <span class="${typeClass}">${data.type.charAt(0).toUpperCase() + data.type.slice(1)}</span>
+          <span class="${statusClass}">${data.status.charAt(0).toUpperCase() + data.status.slice(1)}</span>
         </div>
-        <div class="description">${data.description.substring(0, 100)}${data.description.length > 100 ? '...' : ''}</div>
+        <div class="description">${data.description.substring(0, 120)}${data.description.length > 120 ? '...' : ''}</div>
       `;
       
       item.onclick = function() {
@@ -1905,119 +1974,6 @@
       markerListDiv.appendChild(item);
     }
 
-    // Create timeline chart using Chart.js
-    function createTimelineChart() {
-      const years = Array.from({length: 36}, (_, i) => i + 1990);
-      
-      // Count operations, partnerships, and opportunities by year
-      const operationsData = years.map(year => {
-        return markersData.filter(d => d.type === 'operation' && d.year <= year).length;
-      });
-      
-      const partnershipsData = years.map(year => {
-        return markersData.filter(d => d.type === 'partnership' && d.year <= year).length;
-      });
-      
-      const opportunitiesData = years.map(year => {
-        return markersData.filter(d => d.type === 'opportunity' && d.year <= year).length;
-      });
-      
-      const ctx = document.getElementById('timelineChart').getContext('2d');
-      
-      if (timelineChart) {
-        timelineChart.destroy();
-      }
-      
-      timelineChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: years,
-          datasets: [
-            {
-              label: 'Operations',
-              data: operationsData,
-              borderColor: '#1976d2',
-              backgroundColor: 'rgba(25, 118, 210, 0.2)',
-              fill: true,
-              tension: 0.1
-            },
-            {
-              label: 'Partnerships',
-              data: partnershipsData,
-              borderColor: '#c2185b',
-              backgroundColor: 'rgba(194, 24, 91, 0.2)',
-              fill: true,
-              tension: 0.1
-            },
-            {
-              label: 'Opportunities',
-              data: opportunitiesData,
-              borderColor: '#388e3c',
-              backgroundColor: 'rgba(56, 142, 60, 0.2)',
-              fill: true,
-              tension: 0.1
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            title: {
-              display: true,
-              text: 'RIL Global Presence Growth (1990-2025)',
-              color: isDarkMode ? '#f0f0f0' : '#333',
-              font: {
-                size: 16
-              }
-            },
-            legend: {
-              labels: {
-                color: isDarkMode ? '#f0f0f0' : '#333'
-              }
-            },
-            tooltip: {
-              mode: 'index',
-              intersect: false
-            }
-          },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Year',
-                color: isDarkMode ? '#f0f0f0' : '#333'
-              },
-              ticks: {
-                color: isDarkMode ? '#f0f0f0' : '#333',
-                callback: function(value, index, values) {
-                  // Only show every 5th year for readability
-                  const year = this.getLabelForValue(value);
-                  return year % 5 === 0 ? year : '';
-                }
-              },
-              grid: {
-                color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-              }
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Number of Entities',
-                color: isDarkMode ? '#f0f0f0' : '#333'
-              },
-              min: 0,
-              ticks: {
-                color: isDarkMode ? '#f0f0f0' : '#333'
-              },
-              grid: {
-                color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-              }
-            }
-          }
-        }
-      });
-    }
-
     // Update Timeline View: list events that are active based on the timeline slider
     function updateTimeline() {
       const timelineListDiv = document.getElementById("timelineList");
@@ -2025,67 +1981,65 @@
       const selectedYear = parseInt(document.getElementById("timeline-slider").value);
       document.getElementById("timelineTimeLabel").innerText = selectedYear;
       
-      // Sort markersData by year
-      const sortedData = [...markersData].sort((a, b) => a.year - b.year);
+      // Sort by year
+      const sortedData = [...allTimelineData].sort((a, b) => a.year - b.year);
       
       sortedData.forEach(d => {
         if(d.year <= selectedYear) {
           const item = document.createElement("div");
           item.className = "timeline-item";
           
-          // Determine badge class based on type and status
-          let typeClass = d.type;
-          if(d.status === "past" && selectedYear > 2015) {
-            typeClass += " past";
-          }
+          // Determine badges
+          const typeClass = `type-badge ${d.type}`;
+          const statusClass = `type-badge ${d.status}`;
           
           item.innerHTML = `
             <span class="year">${d.year}</span>
             <h3>${d.name}</h3>
-            <p><span class="type-badge ${typeClass}">${d.type}</span> <span class="type-badge ${typeClass}">${d.status}</span></p>
+            <div class="timeline-badges">
+              <span class="${typeClass}">${d.type.charAt(0).toUpperCase() + d.type.slice(1)}</span>
+              <span class="${statusClass}">${d.status.charAt(0).toUpperCase() + d.status.slice(1)}</span>
+            </div>
             <p>${d.description}</p>
           `;
-          
-          // Add click event to focus on map
-          item.addEventListener('click', () => {
-            switchView('view-map');
-            setTimeout(() => {
-              map.setView(d.coords, 6);
-              const markerObj = markerObjects.find(m => m.data.name === d.name);
-              if (markerObj) {
-                markerObj.marker.openPopup();
-                showDetailCard(d);
-              }
-            }, 300);
-          });
           
           timelineListDiv.appendChild(item);
         }
       });
     }
 
-    // Switch between different views
+    // Switch between different views with enhanced transitions
     function switchView(viewId) {
-      const views = document.getElementsByClassName("view");
-      for(let i = 0; i < views.length; i++) {
-        views[i].classList.remove("active");
+      // Add fade out effect to current active view
+      const currentView = document.querySelector('.view.active');
+      if (currentView) {
+        currentView.style.opacity = '0';
+        setTimeout(() => {
+          // Then switch the actual views
+          document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+          document.getElementById(viewId).classList.add("active");
+          
+          // Fade in the new view
+          setTimeout(() => {
+            document.getElementById(viewId).style.opacity = '1';
+          }, 50);
+        }, 300);
+      } else {
+        // If no current view (first load), just switch
+        document.getElementById(viewId).classList.add("active");
+        document.getElementById(viewId).style.opacity = '1';
       }
-      document.getElementById(viewId).classList.add("active");
       
-      // Also update navbar button active state
+      // Update navbar button active state
       document.querySelectorAll("#navbar button").forEach(btn => btn.classList.remove("active"));
       document.getElementById("btn-" + viewId.split('-')[1]).classList.add("active");
       
+      // Toggle floating chat button visibility
+      document.getElementById('chat-fab').style.display = (viewId === 'view-chat') ? 'none' : 'flex';
+      
       // If switching to Map View, invalidate map size
       if(viewId === "view-map") {
-        setTimeout(() => { map.invalidateSize(); }, 300);
-      }
-      
-      // If switching to Timeline View, make sure chart is rendered
-      if(viewId === "view-timeline") {
-        setTimeout(() => { 
-          createTimelineChart();
-        }, 300);
+        setTimeout(() => { map.invalidateSize(); }, 350);
       }
     }
 
@@ -2097,18 +2051,25 @@
       
       modalTitle.textContent = data.name;
       
-      // Determine status badge class
-      const statusClass = `type-badge ${data.type} ${data.status === 'past' ? 'past' : ''}`;
+      // Create badges for type and status
+      const typeClass = `type-badge ${data.type}`;
+      const statusClass = `type-badge ${data.status}`;
       
       modalContent.innerHTML = `
         <div class="detail-item">
-          <span class="label">Year:</span> ${data.year}
+          <span class="label">Established:</span> ${data.year}
         </div>
         <div class="detail-item">
-          <span class="label">Type:</span> <span class="${statusClass}">${data.type}</span>
+          <span class="label">Type:</span> 
+          <div class="detail-badges">
+            <span class="${typeClass}">${data.type.charAt(0).toUpperCase() + data.type.slice(1)}</span>
+          </div>
         </div>
         <div class="detail-item">
-          <span class="label">Status:</span> <span class="${statusClass}">${data.status}</span>
+          <span class="label">Status:</span> 
+          <div class="detail-badges">
+            <span class="${statusClass}">${data.status.charAt(0).toUpperCase() + data.status.slice(1)}</span>
+          </div>
         </div>
         <div class="detail-item">
           <p>${data.description}</p>
@@ -2126,204 +2087,46 @@
       modal.classList.remove("show");
       setTimeout(() => {
         modal.style.display = "none";
-      }, 300);
+      }, 400); // Match the transition duration
     }
 
-    // Toggle dark mode
-    function toggleDarkMode() {
-      isDarkMode = !isDarkMode;
-      document.body.classList.toggle('dark-mode', isDarkMode);
-      
-      // Update map tiles
-      if (isDarkMode) {
-        map.removeLayer(window.mapTiles.light);
-        window.mapTiles.dark.addTo(map);
-        document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun"></i>';
-      } else {
-        map.removeLayer(window.mapTiles.dark);
-        window.mapTiles.light.addTo(map);
-        document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-moon"></i>';
-      }
-      
-      // Update chart colors if visible
-      if (timelineChart) {
-        timelineChart.options.plugins.title.color = isDarkMode ? '#f0f0f0' : '#333';
-        timelineChart.options.plugins.legend.labels.color = isDarkMode ? '#f0f0f0' : '#333';
-        timelineChart.options.scales.x.ticks.color = isDarkMode ? '#f0f0f0' : '#333';
-        timelineChart.options.scales.x.title.color = isDarkMode ? '#f0f0f0' : '#333';
-        timelineChart.options.scales.y.ticks.color = isDarkMode ? '#f0f0f0' : '#333';
-        timelineChart.options.scales.y.title.color = isDarkMode ? '#f0f0f0' : '#333';
-        timelineChart.options.scales.x.grid.color = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-        timelineChart.options.scales.y.grid.color = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-        timelineChart.update();
-      }
-    }
-
-    // Toggle search panel
-    function toggleSearch() {
-      const searchPanel = document.getElementById('search-panel');
-      searchPanel.classList.toggle('active');
-      
-      if (searchPanel.classList.contains('active')) {
-        document.getElementById('search-input').focus();
-      }
-    }
-
-    // Build search index from marker and strategy data
-    function buildSearchIndex() {
-      searchIndex = [];
-      
-      // Add markers to search index
-      markersData.forEach(marker => {
-        searchIndex.push({
-          type: 'location',
-          title: marker.name,
-          subtitle: `${marker.year} - ${marker.type} (${marker.status})`,
-          content: marker.description,
-          data: marker
-        });
-      });
-      
-      // Add strategy data to search index
-      Object.entries(strategyData).forEach(([key, strategy]) => {
-        searchIndex.push({
-          type: 'strategy',
-          title: strategy.title,
-          subtitle: 'Strategy',
-          content: strategy.points.join(' ') + ' ' + strategy.details,
-          data: {key, strategy}
-        });
-      });
-      
-      // Add analysis data to search index
-      Object.entries(analysisData).forEach(([key, analysis]) => {
-        searchIndex.push({
-          type: 'analysis',
-          title: analysis.title,
-          subtitle: 'Analysis',
-          content: analysis.content,
-          data: {key, analysis}
-        });
-      });
-    }
-
-    // Search function
-    function performSearch(query) {
-      if (!query || query.length < 2) {
-        document.getElementById('search-results').innerHTML = '<p>Enter at least 2 characters to search</p>';
-        return;
-      }
-      
-      query = query.toLowerCase();
-      const results = searchIndex.filter(item => {
-        return item.title.toLowerCase().includes(query) || 
-               item.content.toLowerCase().includes(query);
-      });
-      
-      const resultsContainer = document.getElementById('search-results');
-      resultsContainer.innerHTML = '';
-      
-      if (results.length === 0) {
-        resultsContainer.innerHTML = '<p>No results found</p>';
-        return;
-      }
-      
-      results.forEach(result => {
-        const resultItem = document.createElement('div');
-        resultItem.className = 'search-result-item';
-        resultItem.innerHTML = `
-          <strong>${result.title}</strong>
-          <div>${result.subtitle}</div>
-        `;
-        
-        resultItem.addEventListener('click', () => {
-          // Handle click based on result type
-          if (result.type === 'location') {
-            switchView('view-map');
-            setTimeout(() => {
-              map.setView(result.data.coords, 6);
-              const markerObj = markerObjects.find(m => m.data.name === result.data.name);
-              if (markerObj) {
-                markerObj.marker.openPopup();
-                showDetailCard(result.data);
-              }
-            }, 300);
-          } else if (result.type === 'strategy') {
-            switchView('view-strategy');
-            // Highlight the relevant strategy card
-            setTimeout(() => {
-              const strategySections = document.querySelectorAll('.strategy-card');
-              strategySections.forEach(section => section.style.boxShadow = '');
-              
-              let targetSection;
-              if (result.data.key === 'shortTerm') {
-                targetSection = document.querySelector('.strategy-card.short-term');
-              } else if (result.data.key === 'mediumTerm') {
-                targetSection = document.querySelector('.strategy-card.medium-term');
-              } else if (result.data.key === 'longTerm') {
-                targetSection = document.querySelector('.strategy-card.long-term');
-              }
-              
-              if (targetSection) {
-                targetSection.style.boxShadow = '0 0 0 3px var(--primary), 0 8px 15px rgba(0,0,0,0.1)';
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              }
-            }, 300);
-          } else if (result.type === 'analysis') {
-            switchView('view-details');
-            // Highlight the relevant analysis section
-            setTimeout(() => {
-              const detailsSections = document.querySelectorAll('.details-section h3');
-              let foundSection = false;
-              
-              detailsSections.forEach(section => {
-                if (section.textContent === result.title) {
-                  foundSection = true;
-                  section.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  section.style.color = 'var(--primary)';
-                  setTimeout(() => {
-                    section.style.color = '';
-                  }, 2000);
-                }
-              });
-              
-              if (!foundSection) {
-                document.getElementById('detailsContent').scrollTop = 0;
-              }
-            }, 300);
-          }
-          
-          // Close search panel
-          toggleSearch();
-        });
-        
-        resultsContainer.appendChild(resultItem);
-      });
-    }
-
-    // Chatbot functionality
-    const chatbotConfig = {
+    // --- CHATBOT FUNCTIONALITY --- //
+    
+    // Enhanced configuration for the chatbot with more details from document
+    const CHATBOT_CONFIG = {
+      API_KEY: 'AIzaSyA8R_U1pHmh78Qs3q1PWbAJF_qTgsDFGBc',
+      API_URL: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
       STORAGE_KEY: 'ril_chat_history',
-      MAX_HISTORY_LENGTH: 50
+      SYSTEM_CONTEXT: `You are an AI assistant specialized in Reliance Industries Limited's (RIL) global strategy. 
+      
+      You have deep knowledge of RIL's international operations, market selection, entry modes, organizational structure, 
+      and stakeholder management approaches. You can provide insights about RIL's historical evolution from a textile 
+      company to a global energy conglomerate through the 2000s.
+      
+      Key facts about RIL's international strategy:
+      
+      - Historical Evolution: RIL began international expansion in the 1990s (GDR in 1993), established Reliance E&P DMCC in Dubai in 2007 to acquire overseas oil/gas blocks, formed a major partnership with BP in 2011 (BP bought 30% of RIL's Indian oil & gas blocks for $7.2 billion), and made aggressive investments in U.S. shale gas in 2010. By the late 2010s, RIL had exited most international upstream assets.
+      
+      - Global Strategy: RIL follows a global/international strategy with centralized scale and efficiency over local adaptation. Its approach is characterized by centralized decision-making from Mumbai HQ.
+      
+      - Market Selection: RIL targeted resource-rich countries like Yemen, Oman, Peru, Kurdistan (Iraq), East Timor, Australia, and the United States. Market selection criteria included hydrocarbon potential, geopolitical stability, and partnership opportunities.
+      
+      - Entry Modes: RIL used joint ventures (e.g., U.S. shale deals with Atlas Energy, Pioneer, and Carrizo), wholly-owned subsidiaries (e.g., Dubai E&P DMCC, trading arms in London and Singapore), and attempted acquisitions (LyondellBasell bid in 2009).
+      
+      - Organizational Structure: RIL's operations are highly centralized, with key decisions made in Mumbai. Foreign subsidiaries like trading desks had limited autonomy, leading to challenges (e.g., Singapore trading team quitting due to lack of empowerment).
+      
+      - Stakeholder Management: RIL engages proactively with governments but has been more reactive with NGOs and communities. Its CSR abroad has been less public than its domestic initiatives.
+      
+      - Recommendations: RIL should focus on low-risk, high-synergy markets in the short term, selectively expand in stable regions in the medium term, and transition to a transnational approach in the long term.
+      
+      When asked about RIL's strategy, draw from this knowledge to provide concise, accurate responses.
+      If the user asks to "show" something on the map, interpret this as a request to focus the map on specific 
+      locations and respond with guidance about what they should look for.`
     };
-
-    // Chatbot state
+    
+    // State
     let isWaitingForResponse = false;
     let chatHistory = [];
-    
-    function toggleChat() {
-      const chatContainer = document.getElementById('chat-container');
-      chatContainer.classList.toggle('active');
-      
-      if (chatContainer.classList.contains('active')) {
-        document.getElementById('chat-input').focus();
-        
-        // Show welcome message if chat is empty
-        if (chatHistory.length === 0) {
-          displayWelcomeMessage();
-        }
-      }
-    }
     
     function getCurrentTimestamp() {
       const now = new Date();
@@ -2331,24 +2134,57 @@
     }
     
     function displayWelcomeMessage() {
-      const welcomeMessage = {
-        type: 'bot',
-        text: 'Hello! I\'m your RIL Strategy Assistant. I can help with information about Reliance Industries\' global strategy, international operations, and entry modes. How can I assist you today?',
-        timestamp: getCurrentTimestamp()
-      };
-      addMessageToUI(welcomeMessage);
-      chatHistory.push(welcomeMessage);
-      saveChatHistory();
+      if (chatHistory.length === 0) {
+        const welcomeMessage = {
+          type: 'bot',
+          text: `Welcome to the RIL Strategy Assistant! I'm here to help you understand Reliance Industries' global strategy and international operations. You can ask about:
+
+1. RIL's evolution from a domestic textile company to a global energy conglomerate
+2. Market selection strategies across the Middle East, U.S., and other regions
+3. Entry modes like joint ventures, acquisitions, and wholly-owned subsidiaries
+4. Organizational structure of international operations and decision-making
+5. Stakeholder management with governments, partners, and communities
+
+How can I assist you with understanding RIL's global strategy today?`,
+          timestamp: getCurrentTimestamp()
+        };
+        addMessageToUI(welcomeMessage);
+        chatHistory.push(welcomeMessage);
+        saveChatHistory();
+      }
     }
     
     function addMessageToUI(message) {
       const messagesContainer = document.getElementById('messages');
+      
+      if (message.type === 'system') {
+        const systemMessage = document.createElement('div');
+        systemMessage.classList.add('system-message');
+        if (message.isError) systemMessage.classList.add('error-message');
+        systemMessage.textContent = message.text;
+        messagesContainer.appendChild(systemMessage);
+        return;
+      }
+      
       const messageWrapper = document.createElement('div');
       messageWrapper.classList.add('message-wrapper', `${message.type}-message`);
       
+      // Add sender label for clarity
+      const senderDiv = document.createElement('div');
+      senderDiv.classList.add('message-sender');
+      senderDiv.textContent = message.type === 'bot' ? 'RIL Assistant' : 'You';
+      messageWrapper.appendChild(senderDiv);
+      
       const messageDiv = document.createElement('div');
       messageDiv.classList.add('message');
-      messageDiv.textContent = message.text;
+      
+      if (message.type === 'bot') {
+        // Process markdown for bot messages
+        messageDiv.classList.add('markdown-content');
+        messageDiv.innerHTML = processMarkdown(message.text);
+      } else {
+        messageDiv.textContent = message.text;
+      }
       
       const timestampDiv = document.createElement('div');
       timestampDiv.classList.add('timestamp');
@@ -2385,10 +2221,106 @@
       }
     }
     
-    async function sendChatMessage() {
-      const userInput = document.getElementById('chat-input');
-      const userMessage = userInput.value.trim();
+    // Enhanced markdown processor
+    function processMarkdown(text) {
+      // This is a basic implementation - for production use a proper markdown library
+      let processed = text
+        // Bold
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Italic
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        // Headers
+        .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
+        .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
+        .replace(/^# (.*?)$/gm, '<h1>$1</h1>')
+        // Code blocks
+        .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+        // Inline code
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        // Lists (improved)
+        .replace(/^\- (.*?)$/gm, '<li>$1</li>')
+        .replace(/^\d+\. (.*?)$/gm, '<li>$1</li>')
+        .replace(/(<li>.*?<\/li>)+/gs, function(match) {
+          if (match.includes('1. ') || /\d+\./g.test(match)) {
+            return '<ol>' + match + '</ol>';
+          } else {
+            return '<ul>' + match + '</ul>';
+          }
+        })
+        // Line breaks
+        .replace(/\n/g, '<br>');
+        
+      return processed;
+    }
+    
+    // Handle map navigation requests from the chat with enhanced features
+    function handleMapNavigationRequest(message) {
+      // Simple parsing of location requests
+      const lowerMessage = message.toLowerCase();
       
+      // Show specific location types
+      if (lowerMessage.includes("show operations") || lowerMessage.includes("show me operations")) {
+        switchView('view-map');
+        document.getElementById("filter-operations").checked = true;
+        document.getElementById("filter-partnerships").checked = false;
+        document.getElementById("filter-opportunities").checked = false;
+        updateMarkers();
+        return "I've switched to the map view and filtered to show only operations. You can see RIL's operational locations marked with blue (current) and gray (past) markers. Note how RIL had operations in diverse regions including the Middle East, U.S. shale, and Southeast Asia, before consolidating its international presence.";
+      }
+      
+      if (lowerMessage.includes("show partnerships") || lowerMessage.includes("show me partnerships")) {
+        switchView('view-map');
+        document.getElementById("filter-operations").checked = false;
+        document.getElementById("filter-partnerships").checked = true;
+        document.getElementById("filter-opportunities").checked = false;
+        updateMarkers();
+        return "I've switched to the map view and filtered to show only partnerships. These are marked with pink markers. Note RIL's strategic partnerships with BP in the UK (2011) and more recently with ADNOC in UAE (2021), reflecting its shift toward collaborative entry modes to share risk and gain expertise.";
+      }
+      
+      if (lowerMessage.includes("show opportunities") || lowerMessage.includes("show me opportunities")) {
+        switchView('view-map');
+        document.getElementById("filter-operations").checked = false;
+        document.getElementById("filter-partnerships").checked = false;
+        document.getElementById("filter-opportunities").checked = true;
+        updateMarkers();
+        return "I've switched to the map view and filtered to show future opportunities. These are marked with green markers on the map. RIL is considering opportunities in markets like Nigeria (downstream potential) and Mozambique (LNG projects), which align with its evolved market selection criteria focusing on political stability and strategic fit.";
+      }
+      
+      if (lowerMessage.includes("show markets") || lowerMessage.includes("show me markets") || lowerMessage.includes("key markets")) {
+        switchView('view-map');
+        document.getElementById("filter-operations").checked = true;
+        document.getElementById("filter-partnerships").checked = true;
+        document.getElementById("filter-opportunities").checked = true;
+        updateMarkers();
+        return "I've switched to the map view showing all of RIL's international markets. You can see how RIL's global presence evolved from aggressive expansion in the 2000s (with operations in Yemen, Oman, Peru, Kurdistan, etc.) to a more selective approach with key partnerships (BP, ADNOC) and strategic trading hubs (London, Singapore, Dubai). The connections to Mumbai HQ highlight RIL's centralized decision-making structure.";
+      }
+      
+      // Check for specific regions
+      if (lowerMessage.includes("middle east") || lowerMessage.includes("gulf")) {
+        switchView('view-map');
+        map.setView([25, 55], 5);
+        return "I've focused the map on the Middle East region, which has been critical to RIL's international strategy. Here you can see operations in Dubai (E&P DMCC established in 2007), past ventures in Yemen and Oman, and the new chemical JV with ADNOC in UAE. The Middle East remains a priority for RIL in its short-term strategy recommendations due to political stability and resource availability.";
+      }
+      
+      if (lowerMessage.includes("asia") || lowerMessage.includes("southeast asia")) {
+        switchView('view-map');
+        map.setView([10, 105], 4);
+        return "I've focused the map on Southeast Asia, highlighting RIL's presence in Singapore (trading hub established in 2008) and Myanmar (offshore gas blocks acquired in 2014 during Myanmar's reform phase). The Singapore trading subsidiary faced challenges due to RIL's centralized decision-making, with the entire team once quitting due to lack of empowerment—illustrating organizational structure issues.";
+      }
+      
+      if (lowerMessage.includes("united states") || lowerMessage.includes("us") || lowerMessage.includes("usa") || lowerMessage.includes("america")) {
+        switchView('view-map');
+        map.setView([40, -95], 4);
+        return "I've focused the map on the United States, where RIL had significant shale gas investments in 2010-2011. RIL entered three joint ventures: with Atlas Energy in Marcellus Shale, Pennsylvania ($1.7B for 40% stake); with Pioneer in Eagle Ford, Texas ($1.35B for 45% stake); and with Carrizo. These investments faced challenges when gas prices fell, and RIL eventually exited by 2018, demonstrating how external market conditions affected strategy despite strong entry modes.";
+      }
+      
+      // If no specific navigation request is recognized, return false
+      return false;
+    }
+    
+    async function sendMessage() {
+      const userInput = document.getElementById('user-input');
+      const userMessage = userInput.value.trim();
       if (userMessage === '' || isWaitingForResponse) return;
       
       isWaitingForResponse = true;
@@ -2413,125 +2345,117 @@
       // Show typing indicator
       showTypingIndicator();
       
-      // Add delay for natural typing feel
-      const typingDelay = Math.min(1000 + userMessage.length * 10, 3000);
+      // Check if this is a map navigation request
+      const navigationResponse = handleMapNavigationRequest(userMessage);
       
-      setTimeout(() => {
-        // Get bot response
-        const botResponse = generateBotResponse(userMessage);
-        removeTypingIndicator();
-        
-        const botMessage = {
-          type: 'bot',
-          text: botResponse,
-          timestamp: getCurrentTimestamp()
-        };
-        
-        addMessageToUI(botMessage);
-        chatHistory.push(botMessage);
-        saveChatHistory();
-        
-        isWaitingForResponse = false;
-        document.getElementById('send-button').disabled = userInput.value.trim() === '';
-      }, typingDelay);
-    }
-    
-    // Generate a response based on the user's message
-    function generateBotResponse(userMessage) {
-      const query = userMessage.toLowerCase();
-      
-      // Check for greetings
-      if (query.match(/^(hi|hello|hey|greetings)/i)) {
-        return "Hello! How can I help you with RIL's global strategy today?";
+      if (navigationResponse) {
+        // Handle map navigation requests with a realistic delay
+        setTimeout(() => {
+          removeTypingIndicator();
+          
+          const botMessage = {
+            type: 'bot',
+            text: navigationResponse,
+            timestamp: getCurrentTimestamp()
+          };
+          
+          addMessageToUI(botMessage);
+          chatHistory.push(botMessage);
+          saveChatHistory();
+          
+          isWaitingForResponse = false;
+          document.getElementById('send-button').disabled = userInput.value.trim() === '';
+          userInput.focus();
+        }, 1500);
+      } else {
+        // Regular chat response
+        try {
+          // For Gemini 2.0 flash API, using a simpler format as it doesn't support full chat history
+          // We'll include the system context and the current user message
+          
+          // API call
+          const response = await fetch(`${CHATBOT_CONFIG.API_URL}?key=${CHATBOT_CONFIG.API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{
+                parts: [
+                  { text: `Context: ${CHATBOT_CONFIG.SYSTEM_CONTEXT}\n\nUser's question: ${userMessage}` }
+                ]
+              }]
+            })
+          });
+          
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error("API Error Response:", errorText);
+            let errorMessage = `Error ${response.status}: ${response.statusText}`;
+            try {
+              const errorData = JSON.parse(errorText);
+              if (errorData.error && errorData.error.message) {
+                errorMessage = `Error ${response.status}: ${errorData.error.message}`;
+              }
+            } catch (e) {
+              console.error("Error parsing error response:", e);
+            }
+            throw new Error(errorMessage);
+          }
+          
+          const data = await response.json();
+          
+          removeTypingIndicator();
+          
+          if (data && data.candidates && data.candidates[0] && data.candidates[0].content) {
+            const botMessage = {
+              type: 'bot',
+              text: data.candidates[0].content.parts[0].text,
+              timestamp: getCurrentTimestamp()
+            };
+            
+            addMessageToUI(botMessage);
+            chatHistory.push(botMessage);
+            saveChatHistory();
+          } else {
+            throw new Error('Invalid response format');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          removeTypingIndicator();
+          
+          // Add error message
+          const errorMessage = {
+            type: 'system',
+            text: `Error: ${error.message || 'Failed to get response from assistant'}`,
+            isError: true
+          };
+          addMessageToUI(errorMessage);
+        } finally {
+          // Always reset waiting state and re-enable the send button regardless of success/failure
+          isWaitingForResponse = false;
+          document.getElementById('send-button').disabled = userInput.value.trim() === '';
+          userInput.focus();
+        }
       }
-      
-      // Check for thanks
-      if (query.match(/thank you|thanks|thx/i)) {
-        return "You're welcome! Is there anything else you'd like to know about RIL's international operations?";
-      }
-      
-      // Check for specific topic queries
-      if (query.includes("short term") || query.includes("short-term")) {
-        return `${strategyData.shortTerm.title}: ${strategyData.shortTerm.points.join('. ')}. ${strategyData.shortTerm.details}`;
-      }
-      
-      if (query.includes("medium term") || query.includes("medium-term")) {
-        return `${strategyData.mediumTerm.title}: ${strategyData.mediumTerm.points.join('. ')}. ${strategyData.mediumTerm.details}`;
-      }
-      
-      if (query.includes("long term") || query.includes("long-term")) {
-        return `${strategyData.longTerm.title}: ${strategyData.longTerm.points.join('. ')}. ${strategyData.longTerm.details}`;
-      }
-      
-      // Check for location queries
-      const locationMatch = markersData.find(marker => 
-        query.includes(marker.name.toLowerCase()) || 
-        (marker.name.includes("HQ") && query.includes("headquarters")) ||
-        (marker.name.includes("Mumbai") && query.includes("mumbai"))
-      );
-      
-      if (locationMatch) {
-        return `${locationMatch.name} (${locationMatch.year}): This is a ${locationMatch.status} ${locationMatch.type}. ${locationMatch.description}`;
-      }
-      
-      // Check for analysis topics
-      if (query.includes("historical") || query.includes("evolution") || query.includes("history")) {
-        return `${analysisData.evolution.title}: ${analysisData.evolution.content}`;
-      }
-      
-      if (query.includes("global") && query.includes("local")) {
-        return `${analysisData.globalLocal.title}: ${analysisData.globalLocal.content}`;
-      }
-      
-      if (query.includes("market") && (query.includes("selection") || query.includes("choose") || query.includes("choice"))) {
-        return `${analysisData.marketSelection.title}: ${analysisData.marketSelection.content}`;
-      }
-      
-      if (query.includes("entry mode") || query.includes("how did they enter")) {
-        return `${analysisData.entryModes.title}: ${analysisData.entryModes.content}`;
-      }
-      
-      if (query.includes("organization") || query.includes("structure")) {
-        return `${analysisData.organizational.title}: ${analysisData.organizational.content}`;
-      }
-      
-      if (query.includes("stakeholder") || query.includes("engagement")) {
-        return `${analysisData.stakeholder.title}: ${analysisData.stakeholder.content}`;
-      }
-      
-      // Check for general inquiries about RIL
-      if (query.includes("what is ril") || query.includes("about ril") || query.includes("reliance industries")) {
-        return "Reliance Industries Limited (RIL) is an Indian multinational conglomerate that evolved from a textile player in the 1960s to a global energy and telecommunications giant. Its oil and gas division has had a dynamic international expansion journey, initially aggressive in acquiring overseas assets, then recalibrating to more strategic partnerships and asset-light approaches over time.";
-      }
-      
-      if (query.includes("partnership") || query.includes("joint venture") || query.includes("jv")) {
-        return "RIL has formed several key partnerships internationally. The most significant is the 2011 strategic partnership with BP, where BP acquired a 30% stake in RIL's 23 oil and gas blocks in India for $7.2 billion and formed a 50:50 joint venture for gas marketing. RIL also had JVs with Atlas Energy, Pioneer Natural Resources, and Carrizo Oil & Gas for U.S. shale assets, and more recently formed a JV with ADNOC in the UAE for chemical projects.";
-      }
-      
-      if (query.includes("failure") || query.includes("challenge") || query.includes("unsuccessful")) {
-        return "RIL has faced several challenges in its international ventures. Many of its overseas exploration blocks did not yield commercial discoveries. Its U.S. shale investments faced profitability issues when gas prices fell in the mid-2010s. Political instability led to exits from Yemen, and regulatory uncertainties affected operations in Kurdistan, Iraq. By 2016-17, RIL had divested or relinquished almost all international blocks outside India, keeping only two gas blocks in Myanmar.";
-      }
-      
-      if (query.includes("recommendation") || query.includes("what should ril do")) {
-        return "RIL should refine its international strategy by prioritizing stable, high-potential markets, using flexible entry modes like strategic alliances, and improving organizational agility. In the short term, consolidate existing partnerships like the BP gas JV. In the medium term, pursue selective upstream investments in stable regions and begin decentralizing decision-making by empowering regional hubs. Long-term, RIL should transition to a transnational model balancing global integration with local responsiveness, particularly for new energy businesses.";
-      }
-      
-      // Default response for queries we don't specifically handle
-      return "I can provide information about RIL's global strategy, international operations, partnerships, market selection, entry modes, organizational structure, and stakeholder management. You can also ask about specific locations or recommendations for RIL's future international growth. How else can I assist you?";
     }
     
     // History management
     function saveChatHistory() {
       // Trim history if too long
-      if (chatHistory.length > chatbotConfig.MAX_HISTORY_LENGTH) {
-        chatHistory = chatHistory.slice(-chatbotConfig.MAX_HISTORY_LENGTH);
+      const MAX_HISTORY_LENGTH = 50;
+      if (chatHistory.length > MAX_HISTORY_LENGTH) {
+        chatHistory = chatHistory.slice(-MAX_HISTORY_LENGTH);
       }
-      localStorage.setItem(chatbotConfig.STORAGE_KEY, JSON.stringify(chatHistory));
+      try {
+        localStorage.setItem(CHATBOT_CONFIG.STORAGE_KEY, JSON.stringify(chatHistory));
+      } catch (e) {
+        console.error('Error saving chat history:', e);
+        // Add fallback if localStorage is full or unavailable
+      }
     }
     
     function loadChatHistory() {
       try {
-        const savedHistory = localStorage.getItem(chatbotConfig.STORAGE_KEY);
+        const savedHistory = localStorage.getItem(CHATBOT_CONFIG.STORAGE_KEY);
         if (savedHistory) {
           chatHistory = JSON.parse(savedHistory);
           
@@ -2549,169 +2473,69 @@
     }
     
     function clearChatHistory() {
-      if (confirm('Are you sure you want to clear the chat history?')) {
-        chatHistory = [];
-        localStorage.removeItem(chatbotConfig.STORAGE_KEY);
-        document.getElementById('messages').innerHTML = '';
-        displayWelcomeMessage();
-      }
+      chatHistory = [];
+      localStorage.removeItem(CHATBOT_CONFIG.STORAGE_KEY);
+      document.getElementById('messages').innerHTML = '';
+      displayWelcomeMessage();
     }
     
-    // Guided tour functionality
-    const tourSteps = [
-      {
-        target: '#navbar',
-        content: 'Welcome to the RIL Global Strategy Visualization tool! This application helps you explore Reliance Industries\' international operations and strategy. Let\'s take a quick tour.',
-        position: 'bottom'
-      },
-      {
-        target: '#btn-map',
-        content: 'The Map view shows all of RIL\'s international locations, color-coded by type and status. You can filter by year, type, and status.',
-        position: 'bottom'
-      },
-      {
-        target: '#btn-timeline',
-        content: 'The Timeline view provides a chronological perspective of RIL\'s international expansion journey, with a visual chart and detailed events.',
-        position: 'bottom'
-      },
-      {
-        target: '#btn-strategy',
-        content: 'The Strategy view outlines recommendations for RIL\'s international growth across short-term, medium-term, and long-term horizons.',
-        position: 'bottom'
-      },
-      {
-        target: '#btn-details',
-        content: 'The Details view offers in-depth analysis of RIL\'s historical evolution, market selection criteria, entry modes, and organizational structure.',
-        position: 'bottom'
-      },
-      {
-        target: '#search-toggle',
-        content: 'Use the search feature to quickly find information about specific locations, strategies, or topics within the application.',
-        position: 'bottom'
-      },
-      {
-        target: '#theme-toggle',
-        content: 'Toggle between light and dark modes based on your preference.',
-        position: 'bottom'
-      },
-      {
-        target: '#chat-toggle',
-        content: 'Have questions? Use the built-in chatbot to ask about any aspect of RIL\'s global strategy or international operations.',
-        position: 'bottom'
-      },
-      {
-        target: '#sidebar',
-        content: 'In the Map view, use these filters to customize what\'s displayed on the map. You can filter by entity type, status, and time period.',
-        position: 'right'
-      },
-      {
-        target: '#map',
-        content: 'The map displays all of RIL\'s locations with color-coded markers. Click on any marker to see detailed information. Lines connect locations to the Mumbai HQ, showing the centralized structure of RIL\'s operations.',
-        position: 'left'
-      }
-    ];
-    
-    let currentTourStep = 0;
-    
-    function startTour() {
-      currentTourStep = 0;
-      showTourStep(currentTourStep);
-    }
-    
-    function showTourStep(stepIndex) {
-      if (stepIndex >= tourSteps.length) {
-        endTour();
-        return;
-      }
+    // Initialize chat functionality
+    function initChat() {
+      loadChatHistory();
+      displayWelcomeMessage();
       
-      const step = tourSteps[stepIndex];
-      const targetElement = document.querySelector(step.target);
-      const tourOverlay = document.getElementById('tour-overlay');
-      const tourTooltip = document.getElementById('tour-tooltip');
-      const tourContent = document.getElementById('tour-content');
+      const userInput = document.getElementById('user-input');
+      const sendButton = document.getElementById('send-button');
+      const clearChatButton = document.getElementById('clear-chat');
       
-      // Make sure the view is active if needed
-      if (step.target === '#map' || step.target === '#sidebar') {
-        switchView('view-map');
-      }
+      // Textarea auto-resize
+      userInput.addEventListener('input', () => {
+        // Enable/disable send button based on input
+        sendButton.disabled = userInput.value.trim() === '';
+        
+        // Auto-resize the textarea
+        userInput.style.height = 'auto';
+        const maxHeight = 150;
+        userInput.style.height = (userInput.scrollHeight < maxHeight) ? 
+          userInput.scrollHeight + 'px' : maxHeight + 'px';
+      });
       
-      // Set overlay and display
-      tourOverlay.style.display = 'block';
+      // Send on Enter (but Shift+Enter for new line)
+      userInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          if (!isWaitingForResponse && userInput.value.trim() !== '') {
+            sendMessage();
+          }
+        }
+      });
       
-      // Set tooltip content
-      tourContent.innerHTML = step.content;
+      // Send button click
+      sendButton.addEventListener('click', () => {
+        if (!isWaitingForResponse && userInput.value.trim() !== '') {
+          sendMessage();
+        }
+      });
       
-      // Position tooltip
-      const targetRect = targetElement.getBoundingClientRect();
-      
-      let top, left;
-      
-      // Set position and arrow direction
-      if (step.position === 'bottom') {
-        top = targetRect.bottom + 10;
-        left = targetRect.left + (targetRect.width / 2) - 150;
-        tourTooltip.className = 'tour-tooltip bottom';
-      } else if (step.position === 'top') {
-        top = targetRect.top - tourTooltip.offsetHeight - 10;
-        left = targetRect.left + (targetRect.width / 2) - 150;
-        tourTooltip.className = 'tour-tooltip top';
-      } else if (step.position === 'left') {
-        top = targetRect.top + (targetRect.height / 2) - 100;
-        left = targetRect.left - 320;
-        tourTooltip.className = 'tour-tooltip left';
-      } else if (step.position === 'right') {
-        top = targetRect.top + (targetRect.height / 2) - 100;
-        left = targetRect.right + 10;
-        tourTooltip.className = 'tour-tooltip right';
-      }
-      
-      // Ensure tooltip stays within viewport
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      
-      if (left < 20) left = 20;
-      if (left + 300 > viewportWidth) left = viewportWidth - 320;
-      if (top < 20) top = 20;
-      if (top + 200 > viewportHeight) top = viewportHeight - 220;
-      
-      tourTooltip.style.top = `${top}px`;
-      tourTooltip.style.left = `${left}px`;
-      
-      // Set up button events
-      document.getElementById('tour-next').textContent = 
-        stepIndex === tourSteps.length - 1 ? 'Finish' : 'Next';
-      
-      // Highlight target element
-      targetElement.style.zIndex = '10000';
-      targetElement.style.position = 'relative';
-      targetElement.style.boxShadow = '0 0 0 4px rgba(79, 70, 229, 0.7)';
-    }
-    
-    function nextTourStep() {
-      // Remove highlighting from current element
-      const currentStep = tourSteps[currentTourStep];
-      const currentElement = document.querySelector(currentStep.target);
-      currentElement.style.zIndex = '';
-      currentElement.style.position = '';
-      currentElement.style.boxShadow = '';
-      
-      // Show next step
-      currentTourStep++;
-      showTourStep(currentTourStep);
-    }
-    
-    function endTour() {
-      // Remove any highlighting
-      if (currentTourStep < tourSteps.length) {
-        const currentStep = tourSteps[currentTourStep];
-        const currentElement = document.querySelector(currentStep.target);
-        currentElement.style.zIndex = '';
-        currentElement.style.position = '';
-        currentElement.style.boxShadow = '';
-      }
-      
-      // Hide overlay
-      document.getElementById('tour-overlay').style.display = 'none';
+      // Clear chat history with confirmation
+      clearChatButton.addEventListener('click', () => {
+        if (confirm('Are you sure you want to clear the entire chat history?')) {
+          clearChatHistory();
+        }
+      });
+
+      // Quick question buttons
+      document.querySelectorAll('.quick-question-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (!isWaitingForResponse) {
+            const question = this.getAttribute('data-question');
+            userInput.value = question;
+            sendButton.disabled = false;
+            // Trigger send
+            sendMessage();
+          }
+        });
+      });
     }
 
     // Event listeners for filtering controls in Map View
@@ -2719,50 +2543,13 @@
     document.getElementById("filter-partnerships").addEventListener("change", updateMarkers);
     document.getElementById("filter-opportunities").addEventListener("change", updateMarkers);
     document.getElementById("filter-status").addEventListener("change", updateMarkers);
+    
     document.getElementById("time-slider").addEventListener("input", function() {
       document.getElementById("timeLabel").innerText = this.value;
       updateMarkers();
     });
+    
     document.getElementById("timeline-slider").addEventListener("input", updateTimeline);
-
-    // Chatbot event listeners
-    document.getElementById('chat-toggle').addEventListener('click', toggleChat);
-    document.getElementById('close-chat').addEventListener('click', toggleChat);
-    document.getElementById('clear-chat').addEventListener('click', clearChatHistory);
-    
-    // Textarea auto-resize
-    document.getElementById('chat-input').addEventListener('input', function() {
-      this.style.height = 'auto';
-      this.style.height = (this.scrollHeight < 100) ? this.scrollHeight + 'px' : '100px';
-      document.getElementById('send-button').disabled = this.value.trim() === '';
-    });
-    
-    // Send on Enter (but Shift+Enter for new line)
-    document.getElementById('chat-input').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        if (!isWaitingForResponse && this.value.trim() !== '') {
-          sendChatMessage();
-        }
-      }
-    });
-    
-    // Send button click
-    document.getElementById('send-button').addEventListener('click', sendChatMessage);
-
-    // Tour event listeners
-    document.getElementById('start-tour').addEventListener('click', startTour);
-    document.getElementById('tour-next').addEventListener('click', nextTourStep);
-    document.getElementById('tour-skip').addEventListener('click', endTour);
-
-    // Theme toggle
-    document.getElementById('theme-toggle').addEventListener('click', toggleDarkMode);
-    
-    // Search functionality
-    document.getElementById('search-toggle').addEventListener('click', toggleSearch);
-    document.getElementById('search-input').addEventListener('input', function() {
-      performSearch(this.value);
-    });
 
     // Close modal when clicking outside the content
     window.onclick = function(event) {
@@ -2774,12 +2561,12 @@
 
     // Initialize the app when the page loads
     window.onload = function() {
+      // Initialize all views
       initMap();
       createMarkers();
       updateMarkers();
       updateTimeline();
-      buildSearchIndex();
-      loadChatHistory();
+      initChat();
       
       // Mobile detection and adjustment
       if (window.innerWidth <= 768) {
@@ -2787,16 +2574,19 @@
         document.getElementById('sidebar').classList.remove('expanded');
       }
       
-      // Add resize handler for chart responsiveness
-      window.addEventListener('resize', function() {
-        if (timelineChart) {
-          timelineChart.resize();
-        }
-        
-        // Adjust map when window is resized
-        if (map) {
-          map.invalidateSize();
-        }
+      // Focus on the chat input when switching to chat view
+      document.getElementById('btn-chat').addEventListener('click', () => {
+        setTimeout(() => {
+          document.getElementById('user-input').focus();
+        }, 500);
+      });
+      
+      // Ensure floating chat button works properly
+      document.getElementById('chat-fab').addEventListener('click', () => {
+        switchView('view-chat');
+        setTimeout(() => {
+          document.getElementById('user-input').focus();
+        }, 500);
       });
     };
   </script>
