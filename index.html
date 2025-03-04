@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Chart.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" />
   <style>
     /* Modern CSS Reset & Base Styles */
     *, *::before, *::after {
@@ -22,6 +24,7 @@
       color: #333;
       line-height: 1.6;
       background-color: #f8f9fa;
+      overflow-x: hidden;
     }
     
     /* Color Variables */
@@ -40,11 +43,37 @@
       --transition: all 0.3s ease;
     }
     
+    /* Dark mode colors */
+    body.dark-mode {
+      background-color: #1a1a1a;
+      color: #f0f0f0;
+    }
+    
+    body.dark-mode :root {
+      --primary: #4d79ff;
+      --secondary: #adb5bd;
+      --light: #2a2a2a;
+      --dark: #f0f0f0;
+      --white: #2a2a2a;
+      --text-color: #f0f0f0;
+      --light-text: #d0d0d0;
+      --box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    
     /* Typography */
     h1, h2, h3, h4, h5, h6 {
       margin-top: 0;
       font-weight: 600;
       color: var(--dark);
+    }
+    
+    body.dark-mode h1, 
+    body.dark-mode h2, 
+    body.dark-mode h3, 
+    body.dark-mode h4, 
+    body.dark-mode h5, 
+    body.dark-mode h6 {
+      color: var(--light);
     }
     
     p {
@@ -68,7 +97,7 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: var(--box-shadow);
-      z-index: 10;
+      z-index: 100;
     }
     
     .brand {
@@ -103,6 +132,30 @@
       color: var(--white);
     }
     
+    /* Additional navbar controls */
+    .nav-controls {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .theme-toggle, .search-toggle, .chat-toggle, .tour-button {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .theme-toggle:hover, .search-toggle:hover, .chat-toggle:hover, .tour-button:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
     /* Container for each view */
     .views-container {
       flex: 1;
@@ -127,6 +180,74 @@
       transform: translateX(0);
     }
     
+    /* Search panel */
+    .search-panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--white);
+      padding: 1rem;
+      z-index: 95;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: none;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .search-panel.active {
+      transform: translateY(0);
+      display: block;
+    }
+    
+    .search-input-container {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    
+    .search-results {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 1rem;
+    }
+    
+    .search-result-item {
+      padding: 0.75rem;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .search-result-item:hover {
+      background: #f5f5f5;
+    }
+    
+    body.dark-mode .search-panel {
+      background: #2a2a2a;
+    }
+    
+    body.dark-mode .search-input {
+      background: #333;
+      color: #f0f0f0;
+      border-color: #555;
+    }
+    
+    body.dark-mode .search-result-item {
+      border-color: #444;
+    }
+    
+    body.dark-mode .search-result-item:hover {
+      background: #333;
+    }
+    
     /* Map view layout */
     #view-map {
       display: flex;
@@ -141,6 +262,11 @@
       box-shadow: 2px 0 5px rgba(0,0,0,0.05);
       z-index: 5;
       transition: var(--transition);
+    }
+    
+    body.dark-mode #sidebar {
+      background: #2a2a2a;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.2);
     }
     
     .sidebar-toggle {
@@ -160,6 +286,12 @@
       box-shadow: var(--box-shadow);
     }
     
+    body.dark-mode .sidebar-toggle {
+      background: #2a2a2a;
+      border-color: #555;
+      color: #f0f0f0;
+    }
+    
     #map {
       flex-grow: 1;
     }
@@ -171,6 +303,10 @@
       margin-bottom: 1rem;
       border-bottom: 1px solid #eee;
       padding-bottom: 0.75rem;
+    }
+    
+    body.dark-mode .sidebar-header {
+      border-color: #555;
     }
     
     .sidebar-header h2 {
@@ -185,6 +321,11 @@
       padding: 1rem;
       border-radius: 8px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    body.dark-mode .filter-group {
+      background: #333;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
     
     .filter-title {
@@ -218,6 +359,13 @@
       background: #fff;
     }
     
+    body.dark-mode .filter-group select, 
+    body.dark-mode .filter-group input[type="range"] {
+      background: #444;
+      border-color: #555;
+      color: #f0f0f0;
+    }
+    
     .filter-group select {
       height: 38px;
     }
@@ -242,10 +390,18 @@
       color: var(--primary);
     }
     
+    body.dark-mode .time-value {
+      color: #4d79ff;
+    }
+    
     hr {
       border: none;
       border-top: 1px solid #eee;
       margin: 1.5rem 0;
+    }
+    
+    body.dark-mode hr {
+      border-color: #555;
     }
     
     /* Marker list styling */
@@ -267,6 +423,10 @@
       font-size: 0.9rem;
     }
     
+    body.dark-mode .marker-list-header .marker-count {
+      color: #adb5bd;
+    }
+    
     .marker-item {
       cursor: pointer;
       margin-bottom: 0.75rem;
@@ -278,10 +438,21 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     
+    body.dark-mode .marker-item {
+      background: #333;
+      border-color: #555;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    
     .marker-item:hover {
       background: #f5f7fa;
       transform: translateY(-2px);
       box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    
+    body.dark-mode .marker-item:hover {
+      background: #3a3a3a;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
     }
     
     .marker-item .title {
@@ -295,6 +466,10 @@
       color: var(--primary);
       font-size: 0.9rem;
       font-weight: normal;
+    }
+    
+    body.dark-mode .marker-item .title .year {
+      color: #4d79ff;
     }
     
     .marker-item .type-badge {
@@ -325,10 +500,34 @@
       color: #757575;
     }
     
+    body.dark-mode .type-badge.operation {
+      background: rgba(25, 118, 210, 0.2);
+      color: #64b5f6;
+    }
+    
+    body.dark-mode .type-badge.partnership {
+      background: rgba(194, 24, 91, 0.2);
+      color: #f48fb1;
+    }
+    
+    body.dark-mode .type-badge.opportunity {
+      background: rgba(56, 142, 60, 0.2);
+      color: #81c784;
+    }
+    
+    body.dark-mode .type-badge.past {
+      background: rgba(117, 117, 117, 0.2);
+      color: #bdbdbd;
+    }
+    
     .marker-item .description {
       font-size: 0.9rem;
       color: #555;
       margin-top: 0.25rem;
+    }
+    
+    body.dark-mode .marker-item .description {
+      color: #bbb;
     }
     
     /* Map legends */
@@ -338,6 +537,12 @@
       font: 14px/1.5 'Segoe UI', sans-serif;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
       border-radius: 5px;
+    }
+    
+    body.dark-mode .legend {
+      background: #333;
+      color: #f0f0f0;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
     }
     
     .legend h4 {
@@ -380,6 +585,10 @@
       box-shadow: var(--box-shadow);
     }
     
+    body.dark-mode .timeline-controls {
+      background: #2a2a2a;
+    }
+    
     .timeline {
       position: relative;
       margin: 2rem 0;
@@ -405,6 +614,10 @@
       box-shadow: var(--box-shadow);
     }
     
+    body.dark-mode .timeline-item {
+      background: #2a2a2a;
+    }
+    
     .timeline-item::before {
       content: "";
       position: absolute;
@@ -415,6 +628,10 @@
       border-radius: 50%;
       background: var(--white);
       border: 3px solid var(--primary);
+    }
+    
+    body.dark-mode .timeline-item::before {
+      background: #2a2a2a;
     }
     
     .timeline-item .year {
@@ -433,6 +650,19 @@
     
     .timeline-item p {
       margin-bottom: 0;
+    }
+    
+    /* Timeline Chart */
+    .timeline-chart-container {
+      background: var(--white);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: var(--box-shadow);
+      margin-bottom: 2rem;
+    }
+    
+    body.dark-mode .timeline-chart-container {
+      background: #2a2a2a;
     }
     
     /* Strategy view */
@@ -469,9 +699,17 @@
       overflow: hidden;
     }
     
+    body.dark-mode .strategy-card {
+      background: #2a2a2a;
+    }
+    
     .strategy-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    
+    body.dark-mode .strategy-card:hover {
+      box-shadow: 0 8px 15px rgba(0,0,0,0.3);
     }
     
     .strategy-card::before {
@@ -508,6 +746,10 @@
       color: var(--primary);
     }
     
+    body.dark-mode .strategy-card h3 i {
+      color: #4d79ff;
+    }
+    
     .strategy-card ul {
       padding-left: 1.5rem;
       margin-bottom: 0;
@@ -541,6 +783,10 @@
       box-shadow: var(--box-shadow);
     }
     
+    body.dark-mode .details-section {
+      background: #2a2a2a;
+    }
+    
     .details-section h2 {
       border-bottom: 2px solid var(--primary);
       padding-bottom: 0.75rem;
@@ -550,6 +796,10 @@
     .details-section h3 {
       margin: 1.5rem 0 1rem;
       color: var(--primary-dark);
+    }
+    
+    body.dark-mode .details-section h3 {
+      color: #4d79ff;
     }
     
     /* Modal for detailed info card */
@@ -581,6 +831,10 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
     }
     
+    body.dark-mode #detailModal .modal-content {
+      background: #2a2a2a;
+    }
+    
     #detailModal.show .modal-content {
       transform: translateY(0);
     }
@@ -592,6 +846,10 @@
       margin-bottom: 1rem;
       padding-bottom: 0.75rem;
       border-bottom: 1px solid #eee;
+    }
+    
+    body.dark-mode #detailModal .modal-header {
+      border-color: #555;
     }
     
     #detailModal .modal-header h3 {
@@ -609,6 +867,10 @@
       margin-left: 1rem;
     }
     
+    body.dark-mode #detailModal .close-btn {
+      color: #adb5bd;
+    }
+    
     #detailModal .modal-body {
       margin-bottom: 1.5rem;
     }
@@ -618,6 +880,10 @@
       justify-content: flex-end;
       padding-top: 0.75rem;
       border-top: 1px solid #eee;
+    }
+    
+    body.dark-mode #detailModal .modal-footer {
+      border-color: #555;
     }
     
     #detailModal .modal-footer button {
@@ -644,6 +910,343 @@
       width: 80px;
     }
     
+    /* Chatbot styles */
+    .chat-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 360px;
+      height: 500px;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      transform: translateX(110%);
+    }
+    
+    .chat-container.active {
+      transform: translateX(0);
+    }
+    
+    body.dark-mode .chat-container {
+      background: #2a2a2a;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
+    
+    .chat-header {
+      padding: 1rem;
+      background: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .chat-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+    }
+    
+    .chat-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .chat-action-button {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .chat-action-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .messages-container {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      scroll-behavior: smooth;
+    }
+    
+    .message-wrapper {
+      display: flex;
+      flex-direction: column;
+      max-width: 80%;
+    }
+    
+    .user-message {
+      align-self: flex-end;
+    }
+    
+    .bot-message {
+      align-self: flex-start;
+    }
+    
+    .message {
+      padding: 0.8rem 1rem;
+      border-radius: 18px;
+      position: relative;
+      line-height: 1.5;
+      word-wrap: break-word;
+      font-size: 0.9rem;
+    }
+    
+    .user-message .message {
+      background: var(--primary);
+      color: var(--white);
+      border-bottom-right-radius: 4px;
+    }
+    
+    .bot-message .message {
+      background: var(--secondary);
+      color: var(--white);
+      border-bottom-left-radius: 4px;
+    }
+    
+    body.dark-mode .bot-message .message {
+      background: #444;
+    }
+    
+    .timestamp {
+      font-size: 0.7rem;
+      color: var(--light-text);
+      margin-top: 4px;
+    }
+    
+    .user-message .timestamp {
+      align-self: flex-end;
+    }
+    
+    .bot-message .timestamp {
+      align-self: flex-start;
+    }
+    
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      background: var(--secondary);
+      width: fit-content;
+      padding: 0.8rem 1rem;
+      border-radius: 18px;
+      border-bottom-left-radius: 4px;
+    }
+    
+    body.dark-mode .typing-indicator {
+      background: #444;
+    }
+    
+    .typing-indicator span {
+      height: 8px;
+      width: 8px;
+      background: var(--white);
+      display: block;
+      border-radius: 50%;
+      margin: 0 2px;
+      opacity: 0.4;
+    }
+    
+    .typing-indicator span:nth-child(1) {
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+    
+    .typing-indicator span:nth-child(2) {
+      animation: pulse 1.5s infinite ease-in-out 0.3s;
+    }
+    
+    .typing-indicator span:nth-child(3) {
+      animation: pulse 1.5s infinite ease-in-out 0.6s;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+    
+    .chat-input-container {
+      padding: 0.8rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+    }
+    
+    body.dark-mode .chat-input-container {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .chat-input {
+      flex: 1;
+      border: 1px solid var(--secondary);
+      border-radius: 20px;
+      padding: 0.6rem 1rem;
+      background: var(--white);
+      font-size: 0.9rem;
+      color: var(--text-color);
+      transition: border-color 0.3s;
+      outline: none;
+      resize: none;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+    
+    body.dark-mode .chat-input {
+      background: #333;
+      color: #f0f0f0;
+      border-color: #555;
+    }
+    
+    .chat-input:focus {
+      border-color: var(--primary);
+    }
+    
+    .send-button {
+      background: var(--primary);
+      border: none;
+      color: var(--white);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      margin-left: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, background 0.3s;
+    }
+    
+    .send-button:hover {
+      background: var(--primary-dark);
+    }
+    
+    .send-button:active {
+      transform: scale(0.95);
+    }
+    
+    .send-button:disabled {
+      background: #9CA3AF;
+      cursor: not-allowed;
+    }
+    
+    /* Guided tour overlay */
+    .tour-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 9999;
+      display: none;
+    }
+    
+    .tour-tooltip {
+      position: absolute;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      max-width: 300px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    body.dark-mode .tour-tooltip {
+      background: #2a2a2a;
+      color: #f0f0f0;
+    }
+    
+    .tour-tooltip:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border: 10px solid transparent;
+    }
+    
+    .tour-tooltip.bottom:after {
+      border-bottom-color: white;
+      top: -20px;
+      left: 20px;
+    }
+    
+    .tour-tooltip.top:after {
+      border-top-color: white;
+      bottom: -20px;
+      left: 20px;
+    }
+    
+    .tour-tooltip.left:after {
+      border-left-color: white;
+      right: -20px;
+      top: 20px;
+    }
+    
+    .tour-tooltip.right:after {
+      border-right-color: white;
+      left: -20px;
+      top: 20px;
+    }
+    
+    body.dark-mode .tour-tooltip.bottom:after {
+      border-bottom-color: #2a2a2a;
+    }
+    
+    body.dark-mode .tour-tooltip.top:after {
+      border-top-color: #2a2a2a;
+    }
+    
+    body.dark-mode .tour-tooltip.left:after {
+      border-left-color: #2a2a2a;
+    }
+    
+    body.dark-mode .tour-tooltip.right:after {
+      border-right-color: #2a2a2a;
+    }
+    
+    .tour-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+    
+    .tour-button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .tour-skip {
+      background: var(--secondary);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
     /* Responsive styles */
     @media (max-width: 768px) {
       .sidebar-toggle {
@@ -665,6 +1268,26 @@
       
       .strategy-cards {
         grid-template-columns: 1fr;
+      }
+      
+      .chat-container {
+        width: 100%;
+        height: 60vh;
+        bottom: 0;
+        right: 0;
+        border-radius: 12px 12px 0 0;
+      }
+      
+      .navbar-brand {
+        font-size: 1rem;
+      }
+      
+      #navbar button {
+        padding: 0.5rem;
+      }
+      
+      .nav-controls {
+        gap: 5px;
       }
     }
   </style>
@@ -690,6 +1313,33 @@
         <button id="btn-details" onclick="switchView('view-details')">
           <i class="fas fa-file-alt"></i> Details
         </button>
+      </div>
+      <div class="nav-controls">
+        <button class="search-toggle" id="search-toggle" title="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle Dark Mode">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="chat-toggle" id="chat-toggle" title="Ask Questions">
+          <i class="fas fa-comment-dots"></i>
+        </button>
+        <button class="tour-button" id="start-tour" title="Start Tour">
+          <i class="fas fa-info-circle"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Search Panel -->
+    <div class="search-panel" id="search-panel">
+      <div class="search-input-container">
+        <input type="text" class="search-input" id="search-input" placeholder="Search for locations, strategies, or keywords...">
+        <button class="search-toggle" onclick="toggleSearch()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="search-results" id="search-results">
+        <!-- Search results will be inserted here by JavaScript -->
       </div>
     </div>
 
@@ -764,6 +1414,11 @@
       <div id="view-timeline" class="view">
         <div id="timelineContent">
           <h2><i class="fas fa-history"></i> Timeline of RIL's International Presence</h2>
+          
+          <div class="timeline-chart-container">
+            <h3>Expansion Over Time</h3>
+            <canvas id="timelineChart"></canvas>
+          </div>
           
           <div class="timeline-controls">
             <div class="filter-title">
@@ -901,11 +1556,48 @@
           </div>
         </div>
       </div>
+
+      <!-- Chatbot UI -->
+      <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+          <h3><i class="fas fa-robot"></i> RIL Strategy Assistant</h3>
+          <div class="chat-actions">
+            <button class="chat-action-button" id="clear-chat" title="Clear chat">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+            <button class="chat-action-button" id="close-chat" title="Close chat">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="messages-container" id="messages">
+          <!-- Messages will be inserted here by JavaScript -->
+        </div>
+        <div class="chat-input-container">
+          <textarea id="chat-input" class="chat-input" placeholder="Ask about RIL's strategy..." rows="1" maxlength="1000"></textarea>
+          <button id="send-button" class="send-button" disabled>
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tour overlay for guided tour -->
+      <div class="tour-overlay" id="tour-overlay">
+        <div class="tour-tooltip" id="tour-tooltip">
+          <div class="tour-content" id="tour-content"></div>
+          <div class="tour-buttons">
+            <button class="tour-button tour-skip" id="tour-skip">Skip Tour</button>
+            <button class="tour-button" id="tour-next">Next</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Leaflet JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
   <script>
     // Define marker data with additional properties: type (operation, partnership, opportunity), status (current, past, future), and year.
     const markersData = [
@@ -929,18 +1621,93 @@
       {name: "Mozambique LNG Opportunity", coords: [-18.6657, 35.5296], type: "opportunity", status: "future", year: 2024, description: "Potential investment in East African LNG development, representing a strategic opportunity to secure gas resources in a politically stabilizing region."}
     ];
 
+    // Strategy data for search and chatbot
+    const strategyData = {
+      shortTerm: {
+        title: "Short-Term Strategy (1-3 Years)",
+        points: [
+          "Focus on low-risk, high-synergy markets (e.g., strengthen presence in the Middle East)",
+          "Optimize entry modes via strategic alliances (e.g., extend the BP partnership model)",
+          "Quick organizational wins: streamline decision-making through an International Operations Cell",
+          "Engage stakeholders with targeted CSR initiatives and transparent ESG reporting"
+        ],
+        details: "In the immediate 1-3 year period, RIL should focus on strengthening its position in existing markets while carefully evaluating new opportunities. This includes consolidating and optimizing ventures like the BP gas JV, building stakeholder goodwill through strategic CSR initiatives, and evaluating partnerships in promising regions for renewables or LNG developments."
+      },
+      mediumTerm: {
+        title: "Medium-Term Strategy (3-7 Years)",
+        points: [
+          "Selective upstream investments in politically stable, high-demand regions",
+          "Expand downstream and petrochemical capacities in key markets",
+          "Establish regional hubs and local talent to boost agility",
+          "Regularly review and adjust entry modes based on performance"
+        ],
+        details: "During the 3-7 year horizon, RIL can selectively pursue upstream projects in stable regions, focusing on gas-rich but politically secure countries. Downstream expansions should target key markets to secure supply chains. The organization should also begin decentralizing decision-making by empowering regional hubs in trading and project management."
+      },
+      longTerm: {
+        title: "Long-Term Strategy (7+ Years)",
+        points: [
+          "Transition to a transnational model balancing global integration with local responsiveness",
+          "Build an integrated global network (including digital twin operations centers)",
+          "Consider establishing a separate global holding for international assets",
+          "Deepen stakeholder trust through global sustainability partnerships and local engagement"
+        ],
+        details: "For the 7+ year perspective, RIL should pivot toward a transnational approach that balances global efficiencies with local adaptation, particularly in new energy businesses like green hydrogen and solar manufacturing. Establishing a separate international holding structure could provide better governance for overseas assets, while continually deepening stakeholder relationships across markets."
+      }
+    };
+
+    // Analysis data for search and chatbot
+    const analysisData = {
+      evolution: {
+        title: "Historical Evolution",
+        content: "RIL's journey from a domestic textile player to a global energy conglomerate is marked by bold international forays, key strategic partnerships, and evolving entry modes. Initially expanding aggressively through overseas asset acquisitions and joint ventures – including landmark initiatives like the BP gas marketing partnership – RIL learned that centralization ensured strategic coherence while limiting local responsiveness. Over time, RIL recalibrated its approach by consolidating ventures, adopting asset-light strategies, and increasingly relying on partnerships to mitigate risk."
+      },
+      globalLocal: {
+        title: "Global vs. Local Strategy",
+        content: "RIL's international approach aligns with a global/international strategy on the Integration-Responsiveness grid. The company emphasizes centralized scale and efficiency (e.g., exporting refined fuels globally from India) over local adaptation. It partners with foreign firms for technology and market access rather than deeply customizing products per country. This approach yields cost advantages and consistent quality but can limit local responsiveness."
+      },
+      marketSelection: {
+        title: "Foreign Market Selection",
+        content: "RIL prioritized foreign markets rich in natural resources or strategic value. It acquired oil & gas assets in resource-abundant countries like Yemen, Oman, Peru, Kurdistan (Iraq), East Timor, Australia, and the United States. Market selection criteria included hydrocarbon potential, geopolitical considerations, and partnership opportunities. However, political and regulatory risks posed significant challenges."
+      },
+      entryModes: {
+        title: "Entry Modes",
+        content: "RIL utilized joint ventures, acquisitions, and wholly-owned subsidiaries as entry modes. It set up wholly-owned subsidiaries to bid on international blocks, entered joint ventures with local operators in U.S. shale to leverage partner expertise, and pursued mergers & acquisitions. These modes were chosen to manage risk and gain know-how."
+      },
+      organizational: {
+        title: "Organizational Structure",
+        content: "RIL's international operations are highly centralized. Key decisions and strategy originate from headquarters in Mumbai, with overseas arms executing rather than strategizing. For example, its Singapore trading subsidiary had limited autonomy. The company manages global trading through Mumbai and maintains foreign subsidiaries in hubs like London, Singapore, and Dubai for presence."
+      },
+      stakeholder: {
+        title: "Stakeholder Management",
+        content: "RIL engages proactively with governments and regulators in foreign markets, recognizing political capital as key in energy. It often partners with state-owned firms to align with host government interests. Culturally, RIL adapts by hiring local experts or partnering with local companies in sensitive regions. However, its stakeholder approach has sometimes been reactive."
+      }
+    };
+
     // Global variables for Leaflet layers and marker objects storage
     let map, markersLayer, connectionsLayer, legend;
     let markerObjects = []; // to store each marker along with its data
     let sidebarExpanded = true;
+    let isDarkMode = false;
+    let timelineChart;
+    let searchIndex = [];
 
     // Initialize the Leaflet map (for Map View)
     function initMap() {
       map = L.map('map').setView([20, 0], 2);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
+      
+      // Use different tile styles for dark/light modes
+      window.mapTiles = {
+        light: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }),
+        dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        })
+      };
+      
+      window.mapTiles.light.addTo(map);
       
       markersLayer = L.layerGroup().addTo(map);
       connectionsLayer = L.layerGroup().addTo(map);
@@ -1138,6 +1905,119 @@
       markerListDiv.appendChild(item);
     }
 
+    // Create timeline chart using Chart.js
+    function createTimelineChart() {
+      const years = Array.from({length: 36}, (_, i) => i + 1990);
+      
+      // Count operations, partnerships, and opportunities by year
+      const operationsData = years.map(year => {
+        return markersData.filter(d => d.type === 'operation' && d.year <= year).length;
+      });
+      
+      const partnershipsData = years.map(year => {
+        return markersData.filter(d => d.type === 'partnership' && d.year <= year).length;
+      });
+      
+      const opportunitiesData = years.map(year => {
+        return markersData.filter(d => d.type === 'opportunity' && d.year <= year).length;
+      });
+      
+      const ctx = document.getElementById('timelineChart').getContext('2d');
+      
+      if (timelineChart) {
+        timelineChart.destroy();
+      }
+      
+      timelineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [
+            {
+              label: 'Operations',
+              data: operationsData,
+              borderColor: '#1976d2',
+              backgroundColor: 'rgba(25, 118, 210, 0.2)',
+              fill: true,
+              tension: 0.1
+            },
+            {
+              label: 'Partnerships',
+              data: partnershipsData,
+              borderColor: '#c2185b',
+              backgroundColor: 'rgba(194, 24, 91, 0.2)',
+              fill: true,
+              tension: 0.1
+            },
+            {
+              label: 'Opportunities',
+              data: opportunitiesData,
+              borderColor: '#388e3c',
+              backgroundColor: 'rgba(56, 142, 60, 0.2)',
+              fill: true,
+              tension: 0.1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'RIL Global Presence Growth (1990-2025)',
+              color: isDarkMode ? '#f0f0f0' : '#333',
+              font: {
+                size: 16
+              }
+            },
+            legend: {
+              labels: {
+                color: isDarkMode ? '#f0f0f0' : '#333'
+              }
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Year',
+                color: isDarkMode ? '#f0f0f0' : '#333'
+              },
+              ticks: {
+                color: isDarkMode ? '#f0f0f0' : '#333',
+                callback: function(value, index, values) {
+                  // Only show every 5th year for readability
+                  const year = this.getLabelForValue(value);
+                  return year % 5 === 0 ? year : '';
+                }
+              },
+              grid: {
+                color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Number of Entities',
+                color: isDarkMode ? '#f0f0f0' : '#333'
+              },
+              min: 0,
+              ticks: {
+                color: isDarkMode ? '#f0f0f0' : '#333'
+              },
+              grid: {
+                color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+              }
+            }
+          }
+        }
+      });
+    }
+
     // Update Timeline View: list events that are active based on the timeline slider
     function updateTimeline() {
       const timelineListDiv = document.getElementById("timelineList");
@@ -1166,6 +2046,19 @@
             <p>${d.description}</p>
           `;
           
+          // Add click event to focus on map
+          item.addEventListener('click', () => {
+            switchView('view-map');
+            setTimeout(() => {
+              map.setView(d.coords, 6);
+              const markerObj = markerObjects.find(m => m.data.name === d.name);
+              if (markerObj) {
+                markerObj.marker.openPopup();
+                showDetailCard(d);
+              }
+            }, 300);
+          });
+          
           timelineListDiv.appendChild(item);
         }
       });
@@ -1186,6 +2079,13 @@
       // If switching to Map View, invalidate map size
       if(viewId === "view-map") {
         setTimeout(() => { map.invalidateSize(); }, 300);
+      }
+      
+      // If switching to Timeline View, make sure chart is rendered
+      if(viewId === "view-timeline") {
+        setTimeout(() => { 
+          createTimelineChart();
+        }, 300);
       }
     }
 
@@ -1229,6 +2129,591 @@
       }, 300);
     }
 
+    // Toggle dark mode
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      document.body.classList.toggle('dark-mode', isDarkMode);
+      
+      // Update map tiles
+      if (isDarkMode) {
+        map.removeLayer(window.mapTiles.light);
+        window.mapTiles.dark.addTo(map);
+        document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun"></i>';
+      } else {
+        map.removeLayer(window.mapTiles.dark);
+        window.mapTiles.light.addTo(map);
+        document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-moon"></i>';
+      }
+      
+      // Update chart colors if visible
+      if (timelineChart) {
+        timelineChart.options.plugins.title.color = isDarkMode ? '#f0f0f0' : '#333';
+        timelineChart.options.plugins.legend.labels.color = isDarkMode ? '#f0f0f0' : '#333';
+        timelineChart.options.scales.x.ticks.color = isDarkMode ? '#f0f0f0' : '#333';
+        timelineChart.options.scales.x.title.color = isDarkMode ? '#f0f0f0' : '#333';
+        timelineChart.options.scales.y.ticks.color = isDarkMode ? '#f0f0f0' : '#333';
+        timelineChart.options.scales.y.title.color = isDarkMode ? '#f0f0f0' : '#333';
+        timelineChart.options.scales.x.grid.color = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+        timelineChart.options.scales.y.grid.color = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+        timelineChart.update();
+      }
+    }
+
+    // Toggle search panel
+    function toggleSearch() {
+      const searchPanel = document.getElementById('search-panel');
+      searchPanel.classList.toggle('active');
+      
+      if (searchPanel.classList.contains('active')) {
+        document.getElementById('search-input').focus();
+      }
+    }
+
+    // Build search index from marker and strategy data
+    function buildSearchIndex() {
+      searchIndex = [];
+      
+      // Add markers to search index
+      markersData.forEach(marker => {
+        searchIndex.push({
+          type: 'location',
+          title: marker.name,
+          subtitle: `${marker.year} - ${marker.type} (${marker.status})`,
+          content: marker.description,
+          data: marker
+        });
+      });
+      
+      // Add strategy data to search index
+      Object.entries(strategyData).forEach(([key, strategy]) => {
+        searchIndex.push({
+          type: 'strategy',
+          title: strategy.title,
+          subtitle: 'Strategy',
+          content: strategy.points.join(' ') + ' ' + strategy.details,
+          data: {key, strategy}
+        });
+      });
+      
+      // Add analysis data to search index
+      Object.entries(analysisData).forEach(([key, analysis]) => {
+        searchIndex.push({
+          type: 'analysis',
+          title: analysis.title,
+          subtitle: 'Analysis',
+          content: analysis.content,
+          data: {key, analysis}
+        });
+      });
+    }
+
+    // Search function
+    function performSearch(query) {
+      if (!query || query.length < 2) {
+        document.getElementById('search-results').innerHTML = '<p>Enter at least 2 characters to search</p>';
+        return;
+      }
+      
+      query = query.toLowerCase();
+      const results = searchIndex.filter(item => {
+        return item.title.toLowerCase().includes(query) || 
+               item.content.toLowerCase().includes(query);
+      });
+      
+      const resultsContainer = document.getElementById('search-results');
+      resultsContainer.innerHTML = '';
+      
+      if (results.length === 0) {
+        resultsContainer.innerHTML = '<p>No results found</p>';
+        return;
+      }
+      
+      results.forEach(result => {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'search-result-item';
+        resultItem.innerHTML = `
+          <strong>${result.title}</strong>
+          <div>${result.subtitle}</div>
+        `;
+        
+        resultItem.addEventListener('click', () => {
+          // Handle click based on result type
+          if (result.type === 'location') {
+            switchView('view-map');
+            setTimeout(() => {
+              map.setView(result.data.coords, 6);
+              const markerObj = markerObjects.find(m => m.data.name === result.data.name);
+              if (markerObj) {
+                markerObj.marker.openPopup();
+                showDetailCard(result.data);
+              }
+            }, 300);
+          } else if (result.type === 'strategy') {
+            switchView('view-strategy');
+            // Highlight the relevant strategy card
+            setTimeout(() => {
+              const strategySections = document.querySelectorAll('.strategy-card');
+              strategySections.forEach(section => section.style.boxShadow = '');
+              
+              let targetSection;
+              if (result.data.key === 'shortTerm') {
+                targetSection = document.querySelector('.strategy-card.short-term');
+              } else if (result.data.key === 'mediumTerm') {
+                targetSection = document.querySelector('.strategy-card.medium-term');
+              } else if (result.data.key === 'longTerm') {
+                targetSection = document.querySelector('.strategy-card.long-term');
+              }
+              
+              if (targetSection) {
+                targetSection.style.boxShadow = '0 0 0 3px var(--primary), 0 8px 15px rgba(0,0,0,0.1)';
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+            }, 300);
+          } else if (result.type === 'analysis') {
+            switchView('view-details');
+            // Highlight the relevant analysis section
+            setTimeout(() => {
+              const detailsSections = document.querySelectorAll('.details-section h3');
+              let foundSection = false;
+              
+              detailsSections.forEach(section => {
+                if (section.textContent === result.title) {
+                  foundSection = true;
+                  section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  section.style.color = 'var(--primary)';
+                  setTimeout(() => {
+                    section.style.color = '';
+                  }, 2000);
+                }
+              });
+              
+              if (!foundSection) {
+                document.getElementById('detailsContent').scrollTop = 0;
+              }
+            }, 300);
+          }
+          
+          // Close search panel
+          toggleSearch();
+        });
+        
+        resultsContainer.appendChild(resultItem);
+      });
+    }
+
+    // Chatbot functionality
+    const chatbotConfig = {
+      STORAGE_KEY: 'ril_chat_history',
+      MAX_HISTORY_LENGTH: 50
+    };
+
+    // Chatbot state
+    let isWaitingForResponse = false;
+    let chatHistory = [];
+    
+    function toggleChat() {
+      const chatContainer = document.getElementById('chat-container');
+      chatContainer.classList.toggle('active');
+      
+      if (chatContainer.classList.contains('active')) {
+        document.getElementById('chat-input').focus();
+        
+        // Show welcome message if chat is empty
+        if (chatHistory.length === 0) {
+          displayWelcomeMessage();
+        }
+      }
+    }
+    
+    function getCurrentTimestamp() {
+      const now = new Date();
+      return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    
+    function displayWelcomeMessage() {
+      const welcomeMessage = {
+        type: 'bot',
+        text: 'Hello! I\'m your RIL Strategy Assistant. I can help with information about Reliance Industries\' global strategy, international operations, and entry modes. How can I assist you today?',
+        timestamp: getCurrentTimestamp()
+      };
+      addMessageToUI(welcomeMessage);
+      chatHistory.push(welcomeMessage);
+      saveChatHistory();
+    }
+    
+    function addMessageToUI(message) {
+      const messagesContainer = document.getElementById('messages');
+      const messageWrapper = document.createElement('div');
+      messageWrapper.classList.add('message-wrapper', `${message.type}-message`);
+      
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message');
+      messageDiv.textContent = message.text;
+      
+      const timestampDiv = document.createElement('div');
+      timestampDiv.classList.add('timestamp');
+      timestampDiv.textContent = message.timestamp;
+      
+      messageWrapper.appendChild(messageDiv);
+      messageWrapper.appendChild(timestampDiv);
+      messagesContainer.appendChild(messageWrapper);
+      
+      // Scroll to bottom
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    function showTypingIndicator() {
+      const messagesContainer = document.getElementById('messages');
+      const typingIndicator = document.createElement('div');
+      typingIndicator.id = 'typing-indicator';
+      typingIndicator.classList.add('typing-indicator');
+      
+      typingIndicator.innerHTML = `
+        <span></span>
+        <span></span>
+        <span></span>
+      `;
+      
+      messagesContainer.appendChild(typingIndicator);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    function removeTypingIndicator() {
+      const typingIndicator = document.getElementById('typing-indicator');
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
+    }
+    
+    async function sendChatMessage() {
+      const userInput = document.getElementById('chat-input');
+      const userMessage = userInput.value.trim();
+      
+      if (userMessage === '' || isWaitingForResponse) return;
+      
+      isWaitingForResponse = true;
+      document.getElementById('send-button').disabled = true;
+      
+      const timestamp = getCurrentTimestamp();
+      const message = {
+        type: 'user',
+        text: userMessage,
+        timestamp
+      };
+      
+      // Add user message to UI and history
+      addMessageToUI(message);
+      chatHistory.push(message);
+      saveChatHistory();
+      
+      // Clear input and reset height
+      userInput.value = '';
+      userInput.style.height = 'auto';
+      
+      // Show typing indicator
+      showTypingIndicator();
+      
+      // Add delay for natural typing feel
+      const typingDelay = Math.min(1000 + userMessage.length * 10, 3000);
+      
+      setTimeout(() => {
+        // Get bot response
+        const botResponse = generateBotResponse(userMessage);
+        removeTypingIndicator();
+        
+        const botMessage = {
+          type: 'bot',
+          text: botResponse,
+          timestamp: getCurrentTimestamp()
+        };
+        
+        addMessageToUI(botMessage);
+        chatHistory.push(botMessage);
+        saveChatHistory();
+        
+        isWaitingForResponse = false;
+        document.getElementById('send-button').disabled = userInput.value.trim() === '';
+      }, typingDelay);
+    }
+    
+    // Generate a response based on the user's message
+    function generateBotResponse(userMessage) {
+      const query = userMessage.toLowerCase();
+      
+      // Check for greetings
+      if (query.match(/^(hi|hello|hey|greetings)/i)) {
+        return "Hello! How can I help you with RIL's global strategy today?";
+      }
+      
+      // Check for thanks
+      if (query.match(/thank you|thanks|thx/i)) {
+        return "You're welcome! Is there anything else you'd like to know about RIL's international operations?";
+      }
+      
+      // Check for specific topic queries
+      if (query.includes("short term") || query.includes("short-term")) {
+        return `${strategyData.shortTerm.title}: ${strategyData.shortTerm.points.join('. ')}. ${strategyData.shortTerm.details}`;
+      }
+      
+      if (query.includes("medium term") || query.includes("medium-term")) {
+        return `${strategyData.mediumTerm.title}: ${strategyData.mediumTerm.points.join('. ')}. ${strategyData.mediumTerm.details}`;
+      }
+      
+      if (query.includes("long term") || query.includes("long-term")) {
+        return `${strategyData.longTerm.title}: ${strategyData.longTerm.points.join('. ')}. ${strategyData.longTerm.details}`;
+      }
+      
+      // Check for location queries
+      const locationMatch = markersData.find(marker => 
+        query.includes(marker.name.toLowerCase()) || 
+        (marker.name.includes("HQ") && query.includes("headquarters")) ||
+        (marker.name.includes("Mumbai") && query.includes("mumbai"))
+      );
+      
+      if (locationMatch) {
+        return `${locationMatch.name} (${locationMatch.year}): This is a ${locationMatch.status} ${locationMatch.type}. ${locationMatch.description}`;
+      }
+      
+      // Check for analysis topics
+      if (query.includes("historical") || query.includes("evolution") || query.includes("history")) {
+        return `${analysisData.evolution.title}: ${analysisData.evolution.content}`;
+      }
+      
+      if (query.includes("global") && query.includes("local")) {
+        return `${analysisData.globalLocal.title}: ${analysisData.globalLocal.content}`;
+      }
+      
+      if (query.includes("market") && (query.includes("selection") || query.includes("choose") || query.includes("choice"))) {
+        return `${analysisData.marketSelection.title}: ${analysisData.marketSelection.content}`;
+      }
+      
+      if (query.includes("entry mode") || query.includes("how did they enter")) {
+        return `${analysisData.entryModes.title}: ${analysisData.entryModes.content}`;
+      }
+      
+      if (query.includes("organization") || query.includes("structure")) {
+        return `${analysisData.organizational.title}: ${analysisData.organizational.content}`;
+      }
+      
+      if (query.includes("stakeholder") || query.includes("engagement")) {
+        return `${analysisData.stakeholder.title}: ${analysisData.stakeholder.content}`;
+      }
+      
+      // Check for general inquiries about RIL
+      if (query.includes("what is ril") || query.includes("about ril") || query.includes("reliance industries")) {
+        return "Reliance Industries Limited (RIL) is an Indian multinational conglomerate that evolved from a textile player in the 1960s to a global energy and telecommunications giant. Its oil and gas division has had a dynamic international expansion journey, initially aggressive in acquiring overseas assets, then recalibrating to more strategic partnerships and asset-light approaches over time.";
+      }
+      
+      if (query.includes("partnership") || query.includes("joint venture") || query.includes("jv")) {
+        return "RIL has formed several key partnerships internationally. The most significant is the 2011 strategic partnership with BP, where BP acquired a 30% stake in RIL's 23 oil and gas blocks in India for $7.2 billion and formed a 50:50 joint venture for gas marketing. RIL also had JVs with Atlas Energy, Pioneer Natural Resources, and Carrizo Oil & Gas for U.S. shale assets, and more recently formed a JV with ADNOC in the UAE for chemical projects.";
+      }
+      
+      if (query.includes("failure") || query.includes("challenge") || query.includes("unsuccessful")) {
+        return "RIL has faced several challenges in its international ventures. Many of its overseas exploration blocks did not yield commercial discoveries. Its U.S. shale investments faced profitability issues when gas prices fell in the mid-2010s. Political instability led to exits from Yemen, and regulatory uncertainties affected operations in Kurdistan, Iraq. By 2016-17, RIL had divested or relinquished almost all international blocks outside India, keeping only two gas blocks in Myanmar.";
+      }
+      
+      if (query.includes("recommendation") || query.includes("what should ril do")) {
+        return "RIL should refine its international strategy by prioritizing stable, high-potential markets, using flexible entry modes like strategic alliances, and improving organizational agility. In the short term, consolidate existing partnerships like the BP gas JV. In the medium term, pursue selective upstream investments in stable regions and begin decentralizing decision-making by empowering regional hubs. Long-term, RIL should transition to a transnational model balancing global integration with local responsiveness, particularly for new energy businesses.";
+      }
+      
+      // Default response for queries we don't specifically handle
+      return "I can provide information about RIL's global strategy, international operations, partnerships, market selection, entry modes, organizational structure, and stakeholder management. You can also ask about specific locations or recommendations for RIL's future international growth. How else can I assist you?";
+    }
+    
+    // History management
+    function saveChatHistory() {
+      // Trim history if too long
+      if (chatHistory.length > chatbotConfig.MAX_HISTORY_LENGTH) {
+        chatHistory = chatHistory.slice(-chatbotConfig.MAX_HISTORY_LENGTH);
+      }
+      localStorage.setItem(chatbotConfig.STORAGE_KEY, JSON.stringify(chatHistory));
+    }
+    
+    function loadChatHistory() {
+      try {
+        const savedHistory = localStorage.getItem(chatbotConfig.STORAGE_KEY);
+        if (savedHistory) {
+          chatHistory = JSON.parse(savedHistory);
+          
+          // Render chat history
+          const messagesContainer = document.getElementById('messages');
+          messagesContainer.innerHTML = '';
+          chatHistory.forEach(message => {
+            addMessageToUI(message);
+          });
+        }
+      } catch (error) {
+        console.error('Error loading chat history:', error);
+        chatHistory = [];
+      }
+    }
+    
+    function clearChatHistory() {
+      if (confirm('Are you sure you want to clear the chat history?')) {
+        chatHistory = [];
+        localStorage.removeItem(chatbotConfig.STORAGE_KEY);
+        document.getElementById('messages').innerHTML = '';
+        displayWelcomeMessage();
+      }
+    }
+    
+    // Guided tour functionality
+    const tourSteps = [
+      {
+        target: '#navbar',
+        content: 'Welcome to the RIL Global Strategy Visualization tool! This application helps you explore Reliance Industries\' international operations and strategy. Let\'s take a quick tour.',
+        position: 'bottom'
+      },
+      {
+        target: '#btn-map',
+        content: 'The Map view shows all of RIL\'s international locations, color-coded by type and status. You can filter by year, type, and status.',
+        position: 'bottom'
+      },
+      {
+        target: '#btn-timeline',
+        content: 'The Timeline view provides a chronological perspective of RIL\'s international expansion journey, with a visual chart and detailed events.',
+        position: 'bottom'
+      },
+      {
+        target: '#btn-strategy',
+        content: 'The Strategy view outlines recommendations for RIL\'s international growth across short-term, medium-term, and long-term horizons.',
+        position: 'bottom'
+      },
+      {
+        target: '#btn-details',
+        content: 'The Details view offers in-depth analysis of RIL\'s historical evolution, market selection criteria, entry modes, and organizational structure.',
+        position: 'bottom'
+      },
+      {
+        target: '#search-toggle',
+        content: 'Use the search feature to quickly find information about specific locations, strategies, or topics within the application.',
+        position: 'bottom'
+      },
+      {
+        target: '#theme-toggle',
+        content: 'Toggle between light and dark modes based on your preference.',
+        position: 'bottom'
+      },
+      {
+        target: '#chat-toggle',
+        content: 'Have questions? Use the built-in chatbot to ask about any aspect of RIL\'s global strategy or international operations.',
+        position: 'bottom'
+      },
+      {
+        target: '#sidebar',
+        content: 'In the Map view, use these filters to customize what\'s displayed on the map. You can filter by entity type, status, and time period.',
+        position: 'right'
+      },
+      {
+        target: '#map',
+        content: 'The map displays all of RIL\'s locations with color-coded markers. Click on any marker to see detailed information. Lines connect locations to the Mumbai HQ, showing the centralized structure of RIL\'s operations.',
+        position: 'left'
+      }
+    ];
+    
+    let currentTourStep = 0;
+    
+    function startTour() {
+      currentTourStep = 0;
+      showTourStep(currentTourStep);
+    }
+    
+    function showTourStep(stepIndex) {
+      if (stepIndex >= tourSteps.length) {
+        endTour();
+        return;
+      }
+      
+      const step = tourSteps[stepIndex];
+      const targetElement = document.querySelector(step.target);
+      const tourOverlay = document.getElementById('tour-overlay');
+      const tourTooltip = document.getElementById('tour-tooltip');
+      const tourContent = document.getElementById('tour-content');
+      
+      // Make sure the view is active if needed
+      if (step.target === '#map' || step.target === '#sidebar') {
+        switchView('view-map');
+      }
+      
+      // Set overlay and display
+      tourOverlay.style.display = 'block';
+      
+      // Set tooltip content
+      tourContent.innerHTML = step.content;
+      
+      // Position tooltip
+      const targetRect = targetElement.getBoundingClientRect();
+      
+      let top, left;
+      
+      // Set position and arrow direction
+      if (step.position === 'bottom') {
+        top = targetRect.bottom + 10;
+        left = targetRect.left + (targetRect.width / 2) - 150;
+        tourTooltip.className = 'tour-tooltip bottom';
+      } else if (step.position === 'top') {
+        top = targetRect.top - tourTooltip.offsetHeight - 10;
+        left = targetRect.left + (targetRect.width / 2) - 150;
+        tourTooltip.className = 'tour-tooltip top';
+      } else if (step.position === 'left') {
+        top = targetRect.top + (targetRect.height / 2) - 100;
+        left = targetRect.left - 320;
+        tourTooltip.className = 'tour-tooltip left';
+      } else if (step.position === 'right') {
+        top = targetRect.top + (targetRect.height / 2) - 100;
+        left = targetRect.right + 10;
+        tourTooltip.className = 'tour-tooltip right';
+      }
+      
+      // Ensure tooltip stays within viewport
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      
+      if (left < 20) left = 20;
+      if (left + 300 > viewportWidth) left = viewportWidth - 320;
+      if (top < 20) top = 20;
+      if (top + 200 > viewportHeight) top = viewportHeight - 220;
+      
+      tourTooltip.style.top = `${top}px`;
+      tourTooltip.style.left = `${left}px`;
+      
+      // Set up button events
+      document.getElementById('tour-next').textContent = 
+        stepIndex === tourSteps.length - 1 ? 'Finish' : 'Next';
+      
+      // Highlight target element
+      targetElement.style.zIndex = '10000';
+      targetElement.style.position = 'relative';
+      targetElement.style.boxShadow = '0 0 0 4px rgba(79, 70, 229, 0.7)';
+    }
+    
+    function nextTourStep() {
+      // Remove highlighting from current element
+      const currentStep = tourSteps[currentTourStep];
+      const currentElement = document.querySelector(currentStep.target);
+      currentElement.style.zIndex = '';
+      currentElement.style.position = '';
+      currentElement.style.boxShadow = '';
+      
+      // Show next step
+      currentTourStep++;
+      showTourStep(currentTourStep);
+    }
+    
+    function endTour() {
+      // Remove any highlighting
+      if (currentTourStep < tourSteps.length) {
+        const currentStep = tourSteps[currentTourStep];
+        const currentElement = document.querySelector(currentStep.target);
+        currentElement.style.zIndex = '';
+        currentElement.style.position = '';
+        currentElement.style.boxShadow = '';
+      }
+      
+      // Hide overlay
+      document.getElementById('tour-overlay').style.display = 'none';
+    }
+
     // Event listeners for filtering controls in Map View
     document.getElementById("filter-operations").addEventListener("change", updateMarkers);
     document.getElementById("filter-partnerships").addEventListener("change", updateMarkers);
@@ -1239,6 +2724,45 @@
       updateMarkers();
     });
     document.getElementById("timeline-slider").addEventListener("input", updateTimeline);
+
+    // Chatbot event listeners
+    document.getElementById('chat-toggle').addEventListener('click', toggleChat);
+    document.getElementById('close-chat').addEventListener('click', toggleChat);
+    document.getElementById('clear-chat').addEventListener('click', clearChatHistory);
+    
+    // Textarea auto-resize
+    document.getElementById('chat-input').addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight < 100) ? this.scrollHeight + 'px' : '100px';
+      document.getElementById('send-button').disabled = this.value.trim() === '';
+    });
+    
+    // Send on Enter (but Shift+Enter for new line)
+    document.getElementById('chat-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (!isWaitingForResponse && this.value.trim() !== '') {
+          sendChatMessage();
+        }
+      }
+    });
+    
+    // Send button click
+    document.getElementById('send-button').addEventListener('click', sendChatMessage);
+
+    // Tour event listeners
+    document.getElementById('start-tour').addEventListener('click', startTour);
+    document.getElementById('tour-next').addEventListener('click', nextTourStep);
+    document.getElementById('tour-skip').addEventListener('click', endTour);
+
+    // Theme toggle
+    document.getElementById('theme-toggle').addEventListener('click', toggleDarkMode);
+    
+    // Search functionality
+    document.getElementById('search-toggle').addEventListener('click', toggleSearch);
+    document.getElementById('search-input').addEventListener('input', function() {
+      performSearch(this.value);
+    });
 
     // Close modal when clicking outside the content
     window.onclick = function(event) {
@@ -1254,12 +2778,26 @@
       createMarkers();
       updateMarkers();
       updateTimeline();
+      buildSearchIndex();
+      loadChatHistory();
       
       // Mobile detection and adjustment
       if (window.innerWidth <= 768) {
         sidebarExpanded = false;
         document.getElementById('sidebar').classList.remove('expanded');
       }
+      
+      // Add resize handler for chart responsiveness
+      window.addEventListener('resize', function() {
+        if (timelineChart) {
+          timelineChart.resize();
+        }
+        
+        // Adjust map when window is resized
+        if (map) {
+          map.invalidateSize();
+        }
+      });
     };
   </script>
 </body>
