@@ -569,6 +569,23 @@
       max-width: 800px;
     }
     
+    .timeline-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--primary-light);
+      padding: 0.75rem 1rem;
+      border-radius: var(--border-radius);
+      margin-top: 1rem;
+      max-width: 800px;
+      color: var(--primary);
+      font-size: 0.875rem;
+    }
+    
+    .timeline-info i {
+      font-size: 1rem;
+    }
+    
     .timeline-controls {
       background: var(--white);
       padding: 1.25rem;
@@ -605,12 +622,37 @@
       border: 1px solid var(--gray-200);
       transition: var(--transition);
       max-width: 800px;
+      opacity: 1;
+      transform: translateX(0);
     }
     
     .timeline-item:hover {
       transform: translateX(5px);
       box-shadow: var(--box-shadow-md);
       border-color: var(--primary-light);
+    }
+    
+    .timeline-item.new-entry {
+      animation: fadeInSlide 0.8s ease-out;
+    }
+    
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .timeline-placeholder {
+      text-align: center;
+      color: var(--gray-500);
+      font-style: italic;
+      margin: 2rem 0;
+      padding: 1rem;
     }
     
     .timeline-item::before {
@@ -1507,6 +1549,10 @@
           <div class="timeline-header">
             <h2><i class="fas fa-history"></i> Timeline of RIL's International Presence</h2>
             <p>Explore Reliance Industries' evolution from a domestic textile player in the 1960s to a global energy conglomerate, with key milestones in international expansion and strategic partnerships.</p>
+            <div class="timeline-info">
+              <i class="fas fa-info-circle"></i> 
+              <span>Timeline shows events in reverse chronological order (newest first). Use the slider to explore different time periods.</span>
+            </div>
           </div>
           
           <div class="timeline-controls">
@@ -1981,31 +2027,53 @@
       const selectedYear = parseInt(document.getElementById("timeline-slider").value);
       document.getElementById("timelineTimeLabel").innerText = selectedYear;
       
-      // Sort by year
-      const sortedData = [...allTimelineData].sort((a, b) => a.year - b.year);
+      // Sort by year in reverse order (newest first)
+      const sortedData = [...allTimelineData]
+        .filter(d => d.year <= selectedYear)
+        .sort((a, b) => b.year - a.year);
+      
+      // Create a "New" badge for recent entries
+      const createNewBadge = (year) => {
+        const isRecent = year >= selectedYear - 3;
+        return isRecent ? `<span class="type-badge" style="background: #FEF2F2; color: #EF4444;">New</span>` : '';
+      };
       
       sortedData.forEach(d => {
-        if(d.year <= selectedYear) {
-          const item = document.createElement("div");
-          item.className = "timeline-item";
-          
-          // Determine badges
-          const typeClass = `type-badge ${d.type}`;
-          const statusClass = `type-badge ${d.status}`;
-          
-          item.innerHTML = `
-            <span class="year">${d.year}</span>
-            <h3>${d.name}</h3>
-            <div class="timeline-badges">
-              <span class="${typeClass}">${d.type.charAt(0).toUpperCase() + d.type.slice(1)}</span>
-              <span class="${statusClass}">${d.status.charAt(0).toUpperCase() + d.status.slice(1)}</span>
-            </div>
-            <p>${d.description}</p>
-          `;
-          
-          timelineListDiv.appendChild(item);
+        const item = document.createElement("div");
+        item.className = "timeline-item";
+        
+        // Determine badges
+        const typeClass = `type-badge ${d.type}`;
+        const statusClass = `type-badge ${d.status}`;
+        const newBadge = createNewBadge(d.year);
+        
+        item.innerHTML = `
+          <span class="year">${d.year}</span>
+          <h3>${d.name}</h3>
+          <div class="timeline-badges">
+            ${newBadge}
+            <span class="${typeClass}">${d.type.charAt(0).toUpperCase() + d.type.slice(1)}</span>
+            <span class="${statusClass}">${d.status.charAt(0).toUpperCase() + d.status.slice(1)}</span>
+          </div>
+          <p>${d.description}</p>
+        `;
+        
+        // Add animation class for new entries that appear when sliding
+        if (d.year === selectedYear) {
+          item.classList.add('new-entry');
+          setTimeout(() => item.classList.remove('new-entry'), 1000);
         }
+        
+        timelineListDiv.appendChild(item);
       });
+      
+      // If no events yet for the selected year
+      if (sortedData.length === 0) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'timeline-placeholder';
+        placeholder.innerHTML = `<p>No international events recorded yet for ${selectedYear}.</p>`;
+        timelineListDiv.appendChild(placeholder);
+      }
     }
 
     // Switch between different views with enhanced transitions
